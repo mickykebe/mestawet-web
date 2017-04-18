@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'test') {
     mongoose.connect('mongodb://localhost/dallol');
 }
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '1mb' }));
 routes(app);
 app.use((err, req, res) => {
     res.status(422).send({ error: err.message });

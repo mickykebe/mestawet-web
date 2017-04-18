@@ -13,12 +13,27 @@ function getArticles(posts) {
     return posts.filter(post => post.type === 'article').map(withArticleFields);
 }
 
+function saveArticle(articlePost) {
+    return Article.create(articlePost)
+        .catch((err) => {
+            if (err.code === 11000) {
+                return null;
+            }
+            throw err;
+        });
+}
+
 module.exports = {
     create(req, res, next) {
         const posts = req.body;
         const articles = getArticles(posts);
-        Article.create(articles)
+
+        Promise.all(articles.map(saveArticle))
             .then(() => res.send('Posts saved successfully'))
             .catch(next);
+
+        /* Article.create(articles)
+            .then(() => res.send('Posts saved successfully'))
+            .catch(next);*/
     },
 };
