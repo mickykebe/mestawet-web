@@ -29,11 +29,7 @@ module.exports = {
         const articles = getArticles(posts);
 
         Promise.all(articles.map(saveArticle))
-            .then(() => res.send('Posts saved successfully'))
+            .then(() => res.send({ success: true, message: 'Posts saved successfully' }))
             .catch(next);
-
-        /* Article.create(articles)
-            .then(() => res.send('Posts saved successfully'))
-            .catch(next);*/
     },
 };

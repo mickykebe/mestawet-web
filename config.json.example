@@ -1,0 +1,4 @@
+{
+    "tokenSecret": "[secret]",
+    "jwtPayload": "[payload]"
+}
