@@ -10,6 +10,7 @@ const YoutubeVideoSchema = new Schema({
     },
     title: String,
     thumbnailUrl: String,
+    created_at: Date,
 });
 
 YoutubeVideoSchema.index({ videoId: 1 }, { unique: true });

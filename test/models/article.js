@@ -3,20 +3,27 @@ const mongoose = require('mongoose');
 
 const Article = mongoose.model('article');
 
-describe('Article', () => {
-    it('Unique article validation', (done) => {
-        const article = new Article({
-            url: 'http://asdf.com',
-            title: 'asdf',
-            description: 'fdsa',
-        });
-        article.save()
+describe('Article Model', () => {
+    const article = {
+        url: 'http://asdf.com',
+        title: 'asdf',
+        description: 'fdsa',
+    };
+    it('Unique article index validation', (done) => {
+        new Article(article).save()
             .then(() => {
                 Article.create({ url: 'http://asdf.com' })
                 .catch(() => {
                     assert(true);
                     done();
                 });
+            });
+    });
+    it('createdAt field filled', (done) => {
+        Article.create(article)
+            .then((dbArticle) => {
+                assert(dbArticle.created_at != null);
+                done();
             });
     });
 });
