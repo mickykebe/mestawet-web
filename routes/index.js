@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const PostsController = require('../controllers/posts-controller');
 
 module.exports = (app) => {
+    app.get('/posts', PostsController.get);
     app.use((req, res, next) => {
         const token = req.headers['x-access-token'] || req.query.token || req.body.token;
 

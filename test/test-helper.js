@@ -10,9 +10,10 @@ before('Connect to mongo', (done) => {
 });
 
 beforeEach((done) => {
-    const { articles } = mongoose.connection.collections;
+    const { articles, youtubevideos } = mongoose.connection.collections;
     articles.drop()
         .then(() => articles.createIndex({ url: 1 }, { unique: true }))
-        .then(() => done())
-        .catch(() => done());
+        .then(() => youtubevideos.drop())
+        .then(() => youtubevideos.createIndex({ videoId: 1 }, { unique: true }))
+        .then(() => done());
 });

@@ -6,9 +6,10 @@ const config = require('../../config');
 const jwt = require('jsonwebtoken');
 
 const Article = mongoose.model('article');
+const YoutubeVideo = mongoose.model('youtubeVideo');
 
 describe('Posts controller', () => {
-    const articles = [
+    const posts = [
         {
             title: 'የከንቲባው ጽሕፈት ቤትና የካቢኔ ጉዳዮች ጽሕፈት ቤት ምክትል ኃላፊ በይግባኝ ተከላከሉ ተባሉ',
             url: 'http://ethiopianreporter.com/content/%E1%8B%A8%E1%8A%A8%E1%8A%95%E1%89%B2%E1%89%A3%E1%8B%8D-%E1%8C%BD%E1%88%95%E1%8D%88%E1%89%B5-%E1%89%A4%E1%89%B5%E1%8A%93-%E1%8B%A8%E1%8A%AB%E1%89%A2%E1%8A%94-%E1%8C%89%E1%8B%B3%E1%8B%AE%E1%89%BD-%E1%8C%BD%E1%88%95%E1%8D%88%E1%89%B5-%E1%89%A4%E1%89%B5-%E1%88%9D%E1%8A%AD%E1%89%B5%E1%88%8D-%E1%8A%83%E1%88%8B%E1%8D%8A-%E1%89%A0%E1%8B%AD%E1%8C%8D%E1%89%A3%E1%8A%9D-%E1%89%B0%E1%8A%A8%E1%88%8B%E1%8A%A8%E1%88%89-%E1%89%B0%E1%89%A3%E1%88%89',
@@ -28,11 +29,23 @@ describe('Posts controller', () => {
             thumbnailUrl: 'http://www.fanabc.com/media/k2/items/cache/2f82fe7c5f8a44646c463aeb9d9c5bc8_L.jpg?t=-62169984000',
             type: 'article',
         },
+        {
+            videoId: 'dXNNNk_0HpI',
+            title: 'Ep. 242: Crowd Beginning To Exit Long Dollar Trade',
+            thumbnailUrl: 'https://i.ytimg.com/vi/dXNNNk_0HpI/hqdefault.jpg',
+            type: 'video',
+        },
+        {
+            videoId: 'O8wAFa-TbM4',
+            title: 'Looks like neither Obamacare nor Yellen will be replaced',
+            thumbnailUrl: 'https://i.ytimg.com/vi/O8wAFa-TbM4/hqdefault.jpg',
+            type: 'video',
+        },
     ];
     it('requires token', (done) => {
         request(app)
             .post('/posts')
-            .send(articles)
+            .send(posts)
             .end((err, response) => {
                 assert(response.statusCode === 403);
                 assert(response.body.message === 'Token not sent');
@@ -43,7 +56,7 @@ describe('Posts controller', () => {
         request(app)
             .post('/posts')
             .set('x-access-token', 'asdf')
-            .send(articles)
+            .send(posts)
             .end((err, response) => {
                 assert(response.statusCode === 403);
                 assert(response.body.message === 'Failed to authenticate token');
@@ -51,17 +64,25 @@ describe('Posts controller', () => {
             });
     });
     it('Post posts to /posts', (done) => {
-        Article.count()
-            .then((count) => {
-                request(app)
-                    .post('/posts')
-                    .set('x-access-token', jwt.sign(config.jwtPayload, config.tokenSecret))
-                    .send(articles)
-                    .end(() => {
-                        Article.count().then((newCount) => {
-                            assert(count + 3 === newCount);
-                            done();
-                        });
+        const token = jwt.sign(config.jwtPayload, config.tokenSecret);
+
+        YoutubeVideo.count()
+            .then((videoCount) => {
+                Article.count()
+                    .then((articleCount) => {
+                        request(app)
+                            .post('/posts')
+                            .set('x-access-token', token)
+                            .send(posts)
+                            .end(() => {
+                                YoutubeVideo.count().then((newVideoCount) => {
+                                    Article.count().then((newArticleCount) => {
+                                        assert(articleCount + 3 === newArticleCount);
+                                        assert(videoCount + 2 === newVideoCount);
+                                        done();
+                                    });
+                                });
+                            });
                     });
             });
     });

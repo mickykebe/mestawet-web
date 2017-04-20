@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const utils = require('./utils');
 
 const Schema = mongoose.Schema;
 
@@ -13,14 +14,7 @@ const ArticleSchema = new Schema({
     created_at: Date,
 });
 ArticleSchema.index({ url: 1 }, { unique: true });
-
-ArticleSchema.pre('save', function (next) {
-    const now = new Date();
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
+utils.middlewareAddCreatedAtField(ArticleSchema);
 
 const Article = mongoose.model('article', ArticleSchema);
 
