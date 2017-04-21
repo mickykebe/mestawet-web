@@ -1,5 +1,4 @@
-const Article = require('../models/article');
-const YoutubeVideo = require('../models/youtubeVideo');
+const { Post, Article, YoutubeVideo } = require('../models/post');
 
 function withArticleFields(article) {
     return {
@@ -52,11 +51,26 @@ module.exports = {
         const articles = parsedArticles(posts);
         const youtubeVideos = parsedYoutubeVideos(posts);
 
-        Promise.all(articles.map(saveArticle).concat(youtubeVideos.map(saveVideo)))
+        const savedArticles = articles.map(saveArticle);
+        const savedVids = youtubeVideos.map(saveVideo);
+
+        Promise.all([...savedArticles, ...savedVids])
             .then(() => res.send({ success: true, message: 'Posts saved successfully' }))
             .catch(next);
     },
     get(req, res, next) {
-        
+        const postsPerPage = 30;
+        const offset = Number(req.query.offset) || 0;
+
+        Post.find({})
+            .sort({ _id: -1 })
+            .skip(offset)
+            .then((posts) => {
+                const nextOffset = (posts.length < postsPerPage) ?
+                    offset + posts.length :
+                    offset + postsPerPage;
+                res.send({ posts, nextOffset });
+            })
+            .catch(next);
     },
 };

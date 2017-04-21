@@ -19,11 +19,4 @@ describe('YoutubeVideo Model', () => {
                 });
             });
     });
-    it('createdAt field filled', (done) => {
-        YoutubeVideo.create(video)
-            .then((dbVideo) => {
-                assert(dbVideo.created_at != null);
-                done();
-            });
-    });
 });

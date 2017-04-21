@@ -19,11 +19,4 @@ describe('Article Model', () => {
                 });
             });
     });
-    it('createdAt field filled', (done) => {
-        Article.create(article)
-            .then((dbArticle) => {
-                assert(dbArticle.created_at != null);
-                done();
-            });
-    });
 });
