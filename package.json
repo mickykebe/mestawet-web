@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "node setup/index.js",
+    "start": "node index.js",
     "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
   },
   "author": "",

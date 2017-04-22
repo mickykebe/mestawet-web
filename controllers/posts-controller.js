@@ -1,33 +1,34 @@
-const { Post, Article, YoutubeVideo } = require('../models/post');
+const mongoose = require('mongoose');
 
-function withArticleFields(article) {
-    return {
-        title: article.title,
-        url: article.url,
-        thumbnailUrl: article.thumbnailUrl,
-        description: article.description,
-    };
+const Post = mongoose.model('post');
+const Article = mongoose.model('article');
+const YoutubeVideo = mongoose.model('youtubeVideo');
+const Source = mongoose.model('source');
+
+function articles(posts) {
+    return posts.filter(post => post.type === 'article');
 }
 
-function withYoutubeFields(video) {
-    return {
-        videoId: video.videoId,
-        title: video.title,
-        thumbnailUrl: video.thumbnailUrl,
-    };
+function youtubeVideos(posts) {
+    return posts.filter(post => post.type === 'video');
 }
 
-function parsedArticles(posts) {
-    return posts.filter(post => post.type === 'article').map(withArticleFields);
-}
+function saveArticle(crawledArticle) {
+    return Source.findOne({ crawlerId: crawledArticle.sourceId })
+        .then((source) => {
+            const article = new Article({
+                title: crawledArticle.title,
+                url: crawledArticle.url,
+                thumbnailUrl: crawledArticle.thumbnailUrl,
+                description: crawledArticle.description,
+            });
 
-function parsedYoutubeVideos(posts) {
-    return posts.filter(post => post.type === 'video').map(withYoutubeFields);
-}
+            if (source !== null) {
+                article.source = source;
+            }
 
-function saveArticle(articlePost) {
-    return Article.create(articlePost)
-        .catch((err) => {
+            return article.save();
+        }).catch((err) => {
             if (err.code === 11000) {
                 return null;
             }
@@ -35,9 +36,21 @@ function saveArticle(articlePost) {
         });
 }
 
-function saveVideo(youtubeVideo) {
-    return YoutubeVideo.create(youtubeVideo)
-        .catch((err) => {
+function saveVideo(crawledYoutubeVideo) {
+    return Source.findOne({ crawlerId: crawledYoutubeVideo.sourceId })
+        .then((source) => {
+            const video = new YoutubeVideo({
+                videoId: crawledYoutubeVideo.videoId,
+                title: crawledYoutubeVideo.title,
+                thumbnailUrl: crawledYoutubeVideo.thumbnailUrl,
+            });
+
+            if (source !== null) {
+                video.source = source;
+            }
+
+            return video.save();
+        }).catch((err) => {
             if (err.code === 11000) {
                 return null;
             }
@@ -48,11 +61,8 @@ function saveVideo(youtubeVideo) {
 module.exports = {
     create(req, res, next) {
         const posts = req.body;
-        const articles = parsedArticles(posts);
-        const youtubeVideos = parsedYoutubeVideos(posts);
-
-        const savedArticles = articles.map(saveArticle);
-        const savedVids = youtubeVideos.map(saveVideo);
+        const savedArticles = articles(posts).map(saveArticle);
+        const savedVids = youtubeVideos(posts).map(saveVideo);
 
         Promise.all([...savedArticles, ...savedVids])
             .then(() => res.send({ success: true, message: 'Posts saved successfully' }))

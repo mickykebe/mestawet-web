@@ -6,6 +6,10 @@ const options = { discriminatorKey: 'kind' };
 const PostSchema = new Schema({
     title: String,
     thumbnailUrl: String,
+    source: {
+        type: Schema.Types.ObjectId,
+        ref: 'source',
+    },
 }, options);
 
 const ArticleSchema = new Schema({

@@ -1,0 +1,32 @@
+[
+    {
+        "crawlerId": "addisadmas",
+        "title": "አዲስ አድማስ",
+        "thumbnailUrl": "http://asdf.com"
+    },
+    {
+        "crawlerId": "ethiopianreporter",
+        "title": "ሪፖርተር"
+    },
+    {
+
+        "crawlerId": "fanabc",
+        "title": "ፋና"
+    },
+    {
+        "crawlerId": "satenaw",
+        "title": "ሳተናው"
+    },
+    {
+        "crawlerId": "zehabesha",
+        "title": "ዘ-ሀበሻ"
+    },
+    {
+        "crawlerId": "ethioTime",
+        "title": "ኢትዮ-ታይም"
+    },
+    {
+        "crawlerId": "zeethiopis",
+        "title": "ዘኢትዮጲስ"
+    }
+]

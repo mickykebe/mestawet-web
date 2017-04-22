@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
+require('./initModels');
 const routes = require('./routes');
 
 mongoose.Promise = global.Promise;
