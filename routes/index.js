@@ -1,9 +1,11 @@
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 const PostsController = require('../controllers/posts-controller');
+const SourcesController = require('../controllers/sources-controller');
 
 module.exports = (app) => {
     app.get('/posts', PostsController.get);
+    app.get('/sources', SourcesController.get);
     app.use((req, res, next) => {
         const token = req.headers['x-access-token'] || req.query.token || req.body.token;
 
