@@ -159,14 +159,14 @@ describe('Posts controller', () => {
             assert(video1.videoId === video2.videoId);
             assert(video1.title === video2.title);
             assert(video1.thumbnailUrl === video2.thumbnailUrl);
-            assert(video1.created !== null);
+            assert(video1.when !== null);
         }
         function assertArticleEquality(article1, article2) {
             assert(article1.title === article2.title);
             assert(article1.url === article2.url);
             assert(article1.thumbnailUrl === article2.thumbnailUrl);
             assert(article1.description === article2.description);
-            assert(article1.created !== null);
+            assert(article1.when !== null);
         }
 
         beforeEach((done) => {

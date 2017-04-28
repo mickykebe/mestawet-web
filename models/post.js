@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
-const options = { discriminatorKey: 'kind' };
 
 const PostSchema = new Schema({
     title: String,
@@ -10,10 +10,10 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'source',
     },
-}, options);
+}, { id: false, discriminatorKey: 'kind' });
 
-PostSchema.virtual('created').get(function () {
-    return this._id.getTimestamp();
+PostSchema.virtual('when').get(function () {
+    return moment(this._id.getTimestamp()).fromNow();
 });
 PostSchema.set('toObject', { getters: true });
 PostSchema.set('toJSON', { getters: true });
@@ -24,7 +24,7 @@ const ArticleSchema = new Schema({
         required: [true, 'Url is required'],
     },
     description: String,
-}, { discriminatorKey: 'kind', _id: false });
+}, { discriminatorKey: 'kind', id: false, _id: false });
 ArticleSchema.index({ url: 1 }, { unique: true, sparse: true });
 
 const YoutubeVideoSchema = new Schema({
@@ -32,7 +32,7 @@ const YoutubeVideoSchema = new Schema({
         type: String,
         required: [true, 'VideoId is required'],
     },
-}, { discriminatorKey: 'kind', _id: false });
+}, { discriminatorKey: 'kind', id: false, _id: false });
 YoutubeVideoSchema.index({ videoId: 1 }, { unique: true, sparse: true });
 
 const Post = mongoose.model('post', PostSchema);
