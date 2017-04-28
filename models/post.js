@@ -12,6 +12,12 @@ const PostSchema = new Schema({
     },
 }, options);
 
+PostSchema.virtual('created').get(function () {
+    return this._id.getTimestamp();
+});
+PostSchema.set('toObject', { getters: true });
+PostSchema.set('toJSON', { getters: true });
+
 const ArticleSchema = new Schema({
     url: {
         type: String,

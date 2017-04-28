@@ -115,7 +115,7 @@ describe('Posts controller', () => {
                 });
         });
 
-        it.only('to /posts [verify sources]', (done) => {
+        it('to /posts [verify sources]', (done) => {
             const token = jwt.sign(config.jwtPayload, config.tokenSecret);
 
             request(app)
@@ -159,12 +159,14 @@ describe('Posts controller', () => {
             assert(video1.videoId === video2.videoId);
             assert(video1.title === video2.title);
             assert(video1.thumbnailUrl === video2.thumbnailUrl);
+            assert(video1.created !== null);
         }
         function assertArticleEquality(article1, article2) {
             assert(article1.title === article2.title);
             assert(article1.url === article2.url);
             assert(article1.thumbnailUrl === article2.thumbnailUrl);
             assert(article1.description === article2.description);
+            assert(article1.created !== null);
         }
 
         beforeEach((done) => {

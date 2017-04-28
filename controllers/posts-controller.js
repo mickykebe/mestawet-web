@@ -72,9 +72,19 @@ module.exports = {
         const postsPerPage = 30;
         const offset = Number(req.query.offset) || 0;
 
-        Post.find({}, { title: 1, url: 1, videoId: 1, thumbnailUrl: 1, description: 1, source: 1 })
+        Post.find({},
+            {
+                title: 1,
+                url: 1,
+                videoId: 1,
+                thumbnailUrl: 1,
+                description: 1,
+                source: 1,
+                created: 1,
+            })
             .sort({ _id: -1 })
             .skip(offset)
+            .limit(postsPerPage)
             .then((posts) => {
                 const nextOffset = (posts.length < postsPerPage) ?
                     offset + posts.length :
