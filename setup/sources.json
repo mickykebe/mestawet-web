@@ -2,31 +2,121 @@
     {
         "crawlerId": "addisadmas",
         "title": "አዲስ አድማስ",
-        "thumbnailUrl": "http://asdf.com"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/addis_admas.png"
     },
     {
         "crawlerId": "ethiopianreporter",
-        "title": "ሪፖርተር"
+        "title": "ሪፖርተር",
+        "thumbnailUrl": "http://asdfffdsa.com/icon/reporter.png"
     },
     {
-
         "crawlerId": "fanabc",
-        "title": "ፋና"
+        "title": "ፋና",
+        "thumbnailUrl": "http://asdfffdsa.com/icon/fana.png"
     },
     {
         "crawlerId": "satenaw",
-        "title": "ሳተናው"
+        "title": "ሳተናው",
+        "thumbnailUrl": "http://asdfffdsa.com/icon/satenaw_2.png"
     },
     {
         "crawlerId": "zehabesha",
-        "title": "ዘ-ሀበሻ"
+        "title": "ዘ-ሀበሻ",
+        "thumbnailUrl": "http://asdfffdsa.com/icon/zehabesha.png"
     },
     {
         "crawlerId": "ethioTime",
-        "title": "ኢትዮ-ታይም"
+        "title": "ኢትዮ-ታይም",
+        "thumbnailUrl": "https://yt3.ggpht.com/-2KsJHS7oIrk/AAAAAAAAAAI/AAAAAAAAAAA/920GDKah8Os/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
     },
     {
         "crawlerId": "zeethiopis",
-        "title": "ዘኢትዮጲስ"
+        "title": "ዘኢትዮጲስ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-QVhzHSYs2p0/AAAAAAAAAAI/AAAAAAAAAAA/LR1XOjSZBYQ/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "mogachoch-drama",
+        "title": "ሞጋቾች ድራማ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-pNcu4Wp07CM/AAAAAAAAAAI/AAAAAAAAAAA/I4TVIGBMEP4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "meleket-drama",
+        "title": "መለከት ድራማ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-c1YN4SMRjn8/AAAAAAAAAAI/AAAAAAAAAAA/Nzml1etoOJo/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "techtalk",
+        "title": "Tech talk",
+        "thumbnailUrl": "https://yt3.ggpht.com/-xT17hgiFj5s/AAAAAAAAAAI/AAAAAAAAAAA/A8dWzV0EdOQ/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "seifu-on-ebs",
+        "title": "ሰይፉ በኢቢኤስ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-eCKP3nnftMk/AAAAAAAAAAI/AAAAAAAAAAA/hXeJblG-OQY/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ebstv-worldwide",
+        "title": "ኢቢኤስ ቲቪ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-FnOtNNw44YE/AAAAAAAAAAI/AAAAAAAAAAA/fzzTbAZELTc/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "zemen-drama",
+        "title": "ዘመን ድራማ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-LiiBWzjNZs0/AAAAAAAAAAI/AAAAAAAAAAA/wQSYyqCKJ0U/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "betoch-drama",
+        "title": "ቤቶች ድራማ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-lvPzF8pMPE4/AAAAAAAAAAI/AAAAAAAAAAA/2jXF0eMfmIM/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ebc",
+        "title": "ኢቢሲ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-nZEDGr38t24/AAAAAAAAAAI/AAAAAAAAAAA/pm4EU4phxqs/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "samuel-mersha",
+        "title": "ሳሙኤል መርሻ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-9RLwAzh850Y/AAAAAAAAAAI/AAAAAAAAAAA/l_TDfZZoX_k/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "arada-movies",
+        "title": "Arada Movies",
+        "thumbnailUrl": "https://yt3.ggpht.com/-UpYntf-JKsU/AAAAAAAAAAI/AAAAAAAAAAA/Lp0Zsc6JVtI/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ethio-tube",
+        "title": "ኢትዮ ትዮብ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-alVwoji65Cg/AAAAAAAAAAI/AAAAAAAAAAA/OzXCqW7kmyo/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "reporter-tv",
+        "title": "ሪፖርተር ቲቪ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-mjDsqsEKnxc/AAAAAAAAAAI/AAAAAAAAAAA/-31Ygdjjh0g/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "esat-tv",
+        "title": "ኢሳት ቲቪ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-Fe1bnuIQEwI/AAAAAAAAAAI/AAAAAAAAAAA/iJI5u9v3b1E/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "aymen-afro-app",
+        "title": "አይመን አፍሮ አፕ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-3jGpGkKlr9g/AAAAAAAAAAI/AAAAAAAAAAA/VPSzHnM-GgM/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "yesuf-app",
+        "title": "የሱፍ አፕ",
+        "thumbnailUrl": "https://yt3.ggpht.com/-VGVjzkm3k2s/AAAAAAAAAAI/AAAAAAAAAAA/Q7HxNwSwl8I/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "zena24",
+        "title": "Zena24",
+        "thumbnailUrl": "https://yt3.ggpht.com/-H9c47TeLBRY/AAAAAAAAAAI/AAAAAAAAAAA/nBUEOTc1MjU/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "amharic-vines",
+        "title": "Amharic Vines",
+        "thumbnailUrl": "https://yt3.ggpht.com/-WxQePigIBs4/AAAAAAAAAAI/AAAAAAAAAAA/84A39JHTL-0/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
     }
 ]

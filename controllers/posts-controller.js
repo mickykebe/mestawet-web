@@ -16,6 +16,11 @@ function youtubeVideos(posts) {
 function saveArticle(crawledArticle) {
     return Source.findOne({ crawlerId: crawledArticle.sourceId })
         .then((source) => {
+            if (source == null) {
+                console.log('Article dropped because no corresponding source', crawledArticle);
+                return null;
+            }
+
             const article = new Article({
                 title: crawledArticle.title,
                 url: crawledArticle.url,
@@ -23,10 +28,7 @@ function saveArticle(crawledArticle) {
                 description: crawledArticle.description,
             });
 
-            if (source !== null) {
-                article.source = source;
-            }
-
+            article.source = source;
             return article.save();
         }).catch((err) => {
             if (err.code === 11000) {
@@ -39,16 +41,18 @@ function saveArticle(crawledArticle) {
 function saveVideo(crawledYoutubeVideo) {
     return Source.findOne({ crawlerId: crawledYoutubeVideo.sourceId })
         .then((source) => {
+            if (source == null) {
+                console.log('Video dropped because no corresponding source', crawledYoutubeVideo);
+                return null;
+            }
+
             const video = new YoutubeVideo({
                 videoId: crawledYoutubeVideo.videoId,
                 title: crawledYoutubeVideo.title,
                 thumbnailUrl: crawledYoutubeVideo.thumbnailUrl,
             });
 
-            if (source !== null) {
-                video.source = source;
-            }
-
+            video.source = source;
             return video.save();
         }).catch((err) => {
             if (err.code === 11000) {

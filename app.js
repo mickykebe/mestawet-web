@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 require('./initModels');
 const routes = require('./routes');
 
@@ -12,6 +13,7 @@ if (process.env.NODE_ENV !== 'test') {
     mongoose.connect('mongodb://localhost/dallol');
 }
 
+app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
 routes(app);
 app.use((err, req, res) => {
