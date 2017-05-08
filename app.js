@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('./initModels');
-const routes = require('./routes');
+const apiRoute = require('./routes');
 
 mongoose.Promise = global.Promise;
 
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
-routes(app);
+app.use('/api', apiRoute);
 app.use((err, req, res) => {
     res.status(422).send({ error: err.message });
 });
