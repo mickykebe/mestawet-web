@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prestart": "node setup/index.js",
-    "start": "nodemon index.js",
+    "start": "concurrently \"npm run server\" \"npm run client\" ",
+    "server": "nodemon index.js",
+    "client": "cd dallol-web && npm start",
     "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
   },
   "author": "",
@@ -21,6 +23,7 @@
     "mongoose": "^4.9.4"
   },
   "devDependencies": {
+    "concurrently": "^3.4.0",
     "supertest": "^3.0.0"
   }
 }

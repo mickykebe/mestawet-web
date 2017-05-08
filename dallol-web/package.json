@@ -2,6 +2,7 @@
   "name": "dallol-web",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3050/",
   "dependencies": {
     "jss-theme-reactor": "^0.11.1",
     "material-ui": "^1.0.0-alpha.12",

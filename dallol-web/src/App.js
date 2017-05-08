@@ -9,7 +9,6 @@ import Masonry from 'react-masonry-component';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from 'material-ui/Progress';
 import Alert from 'react-s-alert';
-import Config from './config';
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/scale.css';
@@ -82,23 +81,23 @@ function getJSON(url) {
 }
 
 function getPosts(offset = 0) {
-  return getJSON(`http://${Config.serverHostName}/api/posts?offset=${offset}`)
+  return getJSON(`/api/posts?offset=${offset}`)
     .then((postsResponse) => {
       if(postsResponse.error){
         throw new Error(postsResponse.error);
       }
       return postsResponse;
-    });
+    })
 }
 
 function getSources() {
-  return getJSON(`http://${Config.serverHostName}/api/sources`)
+  return getJSON(`/api/sources`)
     .then((srcRes) => {
       if(srcRes.error){
         throw new Error(srcRes.error);
       }
       return srcRes;
-    });
+    })
 }
 
 class App extends Component {
