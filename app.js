@@ -9,10 +9,6 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
-if (process.env.NODE_ENV !== 'test') {
-    mongoose.connect('mongodb://localhost/dallol');
-}
-
 app.use(express.static(path.join(__dirname, 'dallol-web', 'build')));
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use('/api', apiRoute);

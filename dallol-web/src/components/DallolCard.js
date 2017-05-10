@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
-import { Card } from 'material-ui/Card';
+import Card from 'material-ui/Card';
 import DallolCardMedia from './DallolCardMedia';
 
 const stylesheet = createStyleSheet('DallolCard', (theme) => {
