@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import {
     CardHeader,
  } from 'material-ui/Card';
-import DallolCard from './DallolCard';
-import DallolCardMedia from './DallolCardMedia';
-import DallolCardTitle from './DallolCardTitle';
-import DallolCardDescription from './DallolCardDescription';
+import DallolCard from 'app/components/DallolCard';
+import DallolCardMedia from 'app/components/DallolCardMedia';
+import DallolCardTitle from 'app/components/DallolCardTitle';
+import DallolCardDescription from 'app/components/DallolCardDescription';
 import Avatar from 'material-ui/Avatar';
 
 class ArticleCard extends Component {

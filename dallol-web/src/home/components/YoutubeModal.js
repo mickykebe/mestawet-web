@@ -35,7 +35,6 @@ class YoutubeModal extends Component {
     }
     constructor(props) {
         super(props);
-        this.state = { modalIsOpen: false }
         this.closeModal = this.closeModal.bind(this);
         this.onEntered = this.onEntered.bind(this);
     }
@@ -47,18 +46,7 @@ class YoutubeModal extends Component {
     }
 
     closeModal() {
-        this.setState({
-            modalIsOpen: false
-        });
-        this.props.onDialogClose();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.videoId){
-            this.setState({
-                modalIsOpen: true,
-            });
-        }
+        this.props.history.goBack();
     }
 
 
@@ -66,17 +54,19 @@ class YoutubeModal extends Component {
         const classes = this.context.styleManager.render(stylesheet);
         return (
             <Dialog
-                open={this.state.modalIsOpen}
+                open={true}
                 onRequestClose={this.closeModal}
                 onEntered={this.onEntered}
                 >
-                    <div className={classes.videoWrapper}>
-                        <Youtube
-                            videoId={this.state.videoId}
-                            opts={playerOpts}
-                            className={classes.youtubeElem}
-                            />
-                    </div>
+                    { this.state && this.state.videoId &&
+                        <div className={classes.videoWrapper}>
+                            <Youtube
+                                videoId={this.props.videoId}
+                                opts={playerOpts}
+                                className={classes.youtubeElem}
+                                />
+                        </div>   
+                    }
             </Dialog>
         );
     }

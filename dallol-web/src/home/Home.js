@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
-import Nav from './components/Nav';
+import { getPosts, getSources } from './api';
 import ArticleCard from './components/ArticleCard';
 import YoutubeCard from './components/YoutubeCard';
 import YoutubeModal from './components/YoutubeModal';
@@ -13,94 +14,59 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
-const styleSheet = createStyleSheet('App', (theme) => {
-  return {
+const styleSheet = createStyleSheet('App', theme => ({
     '@global': {
-      html: {
-        boxSizing: 'border-box',
-      },
-      '*, *:before, *:after': {
-        boxSizing: 'inherit',
-      },
-      body: {
-        margin: 0,
-        background: theme.palette.background.default,
-        fontFamily: theme.typography.fontFamily,
-        color: theme.palette.text.primary,
-        lineHeight: '1.2',
-        overflowX: 'hidden',
-        WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale',
-      },
-      a: {
-        color: theme.palette.accent.A400,
-        textDecoration: 'none',
-      },
-      'a:hover': {
-        textDecoration: 'underline',
-      },
-      img: {
-        maxWidth: '100%',
-        height: 'auto',
-        width: 'auto',
-      },
+        html: {
+            boxSizing: 'border-box',
+        },
+        '*, *:before, *:after': {
+            boxSizing: 'inherit',
+        },
+        body: {
+            margin: 0,
+            background: theme.palette.background.default,
+            fontFamily: theme.typography.fontFamily,
+            color: theme.palette.text.primary,
+            lineHeight: '1.2',
+            overflowX: 'hidden',
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
+        },
+        a: {
+            textDecoration: 'none',
+        },
+        img: {
+            maxWidth: '100%',
+            height: 'auto',
+            width: 'auto',
+        },
     },
     content: {
-      padding: '80px 8px 8px',
-      maxWidth: '1280px',
-      margin: '0 auto',
+        padding: '80px 8px 8px',
+        maxWidth: '1280px',
+        margin: '0 auto',
     },
     gridItem: {
-      width: '100%',
-      paddingBottom: '16px',
-      '@media (min-width: 600px)': {
-        width: '48%'
-      },
-      '@media (min-width: 960px)': {
-        width: '32%'
-      }
+        width: '100%',
+        paddingBottom: '16px',
+        '@media (min-width: 600px)': {
+            width: '48%',
+        },
+        '@media (min-width: 960px)': {
+            width: '32%',
+        },
     },
     spinnerContainer: {
-      width: '100%',
+        width: '100%',
     },
     loadingSpinner: {
-      display: 'block',
-      margin: '0 auto'
-    }
-  }
-});
+        display: 'block',
+        margin: '0 auto',
+    },
+}));
 
-function getJSON(url) {
-  return fetch(url)
-    .then((response) => {
-      if(!response.ok) {
-        throw new Error('Problem fetching posts')
-      }
-      return response.json();
-    });
-}
 
-function getPosts(offset = 0) {
-  return getJSON(`/api/posts?offset=${offset}`)
-    .then((postsResponse) => {
-      if(postsResponse.error){
-        throw new Error(postsResponse.error);
-      }
-      return postsResponse;
-    })
-}
-
-function getSources() {
-  return getJSON(`/api/sources`)
-    .then((srcRes) => {
-      if(srcRes.error){
-        throw new Error(srcRes.error);
-      }
-      return srcRes;
-    })
-}
-
-class App extends Component {
+class Home extends Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   };
@@ -112,10 +78,8 @@ class App extends Component {
       hasMore: false, 
       sources: [], 
       posts: [], 
-      nextOffset: 0, 
-      curYoutubeVideoId: '',
+      nextOffset: 0,
     };
-    this.openYoutubeVideo = this.openYoutubeVideo.bind(this);
     this.setPosts = this.setPosts.bind(this);
     this.setSources = this.setSources.bind(this);
     this.setNextOffset = this.setNextOffset.bind(this);
@@ -123,7 +87,6 @@ class App extends Component {
     this.renderPost = this.renderPost.bind(this);
     this.wrapGridItem = this.wrapGridItem.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
-    this.clearCurrentVideoId = this.clearCurrentVideoId.bind(this);
     this.handleFetchError = this.handleFetchError.bind(this);
   }
 
@@ -135,12 +98,6 @@ class App extends Component {
     });
     this.setState({
       hasMore: false,
-    });
-  }
-
-  clearCurrentVideoId() {
-    this.setState({
-      currentVideoId: '',
     });
   }
 
@@ -178,12 +135,6 @@ class App extends Component {
       .catch(this.handleFetchError);
   }
 
-  openYoutubeVideo(videoId) {
-    this.setState({
-      currentVideoId: videoId,
-    });
-  }
-
   getSource(post) {
     return this.state.sources.find(source => source._id === post.source);
   }
@@ -211,7 +162,6 @@ class App extends Component {
         }
       })
       .catch(this.handleFetchError);
-
   }
 
   renderPost(post) {
@@ -221,7 +171,7 @@ class App extends Component {
       return this.wrapGridItem(<ArticleCard article={post} source={source}/>, key);
     }
     else if(post.kind === 'youtubeVideo'){
-      return this.wrapGridItem(<YoutubeCard video={post} source={source} onVideoClick={this.openYoutubeVideo} />, key);
+      return this.wrapGridItem(<YoutubeCard video={post} source={source} />, key);
     }
   }
 
@@ -236,7 +186,6 @@ class App extends Component {
 
     return (
       <div>
-        <Nav />
         <div className={classes.content}>
           <InfiniteScroll
               pageStart={0}
@@ -254,12 +203,12 @@ class App extends Component {
           </InfiniteScroll>
         </div>
         <Alert stack={{limit: 3}} />
-        <YoutubeModal 
-          videoId={this.state.currentVideoId}
-          onDialogClose={this.clearCurrentVideoId} />
+        <Route path='/youtube/:id' render={({match, history}) => <YoutubeModal 
+        videoId={match.params.id}
+        history={history} />} />
       </div>
     );
   }
 }
 
-export default App;
+export default Home;
