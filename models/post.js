@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -12,8 +11,8 @@ const PostSchema = new Schema({
     },
 }, { id: false, discriminatorKey: 'kind' });
 
-PostSchema.virtual('when').get(function () {
-    return moment(this._id.getTimestamp()).fromNow();
+PostSchema.virtual('date').get(function () {
+    return this._id.getTimestamp();
 });
 PostSchema.set('toObject', { getters: true });
 PostSchema.set('toJSON', { getters: true });

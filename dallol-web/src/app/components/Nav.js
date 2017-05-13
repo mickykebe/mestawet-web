@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import AppBar from 'material-ui/AppBar';
@@ -30,7 +31,9 @@ class Nav extends Component {
                 <Toolbar>
                     <Grid container justify="center">
                         <Grid item sm={12} lg={8}>
-                            <img className={classes.logo} src={logo} alt="Mestawet logo" />
+                            <Link to="/">
+                                <img className={classes.logo} src={logo} alt="Mestawet logo" />
+                            </Link>
                         </Grid>
                     </Grid>
                 </Toolbar>

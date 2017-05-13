@@ -10,6 +10,7 @@ import DallolCard from 'app/components/DallolCard';
 import DallolCardMedia from 'app/components/DallolCardMedia';
 import Avatar from 'material-ui/Avatar';
 import DallolCardTitle from 'app/components/DallolCardTitle';
+import moment from 'moment';
 
 const stylesheet = createStyleSheet('YoutubeCard', (theme) => {
     return {
@@ -26,7 +27,7 @@ const stylesheet = createStyleSheet('YoutubeCard', (theme) => {
             left: '50%',
             top: '50%',
             transform: 'translate(-50%, -50%)',
-            color: '#fff',
+            color: theme.palette.primary[800],
         }
     };
 })
@@ -42,7 +43,7 @@ class YoutubeCard extends React.Component {
 
     render() {
         const classes = this.context.styleManager.render(stylesheet);
-        const { thumbnailUrl, title, when } = this.props.video;
+        const { thumbnailUrl, title, date } = this.props.video;
         const { thumbnailUrl:srcThumbUrl, title:srcTitle } = this.props.source;
 
         return (
@@ -52,7 +53,7 @@ class YoutubeCard extends React.Component {
                 <DallolCard className={classes.videoCard}>
                     <CardHeader
                         title={srcTitle}
-                        subheader={when}
+                        subheader={moment(date).fromNow()}
                         avatar={srcThumbUrl && <Avatar src={srcThumbUrl} />}
                         />
                     <DallolCardTitle>

@@ -1,19 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Nav from './components/Nav';
 import Home from 'home/Home';
+import Article from 'article/Article';
 import { 
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Nav />
+function Content() {
+  return (
+    <div>
+      <Nav />
+      <Switch>
         <Route component={Home} />
-      </div>
-    );
-  }
+      </Switch>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Switch>
+      <Route path='/article/:id' component={Article} />
+      <Route component={Content} />
+    </Switch>
+  );
 }
 
 export default App;

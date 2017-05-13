@@ -72,7 +72,7 @@ module.exports = {
             .then(() => res.send({ success: true, message: 'Posts saved successfully' }))
             .catch(next);
     },
-    get(req, res, next) {
+    getPosts(req, res, next) {
         const postsPerPage = 30;
         const offset = Number(req.query.offset) || 0;
 
@@ -84,7 +84,7 @@ module.exports = {
                 thumbnailUrl: 1,
                 description: 1,
                 source: 1,
-                created: 1,
+                date: 1,
             })
             .sort({ _id: -1 })
             .skip(offset)
@@ -94,6 +94,22 @@ module.exports = {
                     offset + posts.length :
                     offset + postsPerPage;
                 res.send({ posts, nextOffset });
+            })
+            .catch(next);
+    },
+    getArticle(req, res, next) {
+        const postId = req.params.id;
+        if (!postId) {
+            next(new Error('No article id provided'));
+            return;
+        }
+
+        Article.findById(postId)
+            .then((post) => {
+                if (!post) {
+                    throw new Error('Unable to retreive article');
+                }
+                res.send(post);
             })
             .catch(next);
     },

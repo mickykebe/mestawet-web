@@ -78,7 +78,7 @@ describe('Posts controller', () => {
 
         it('requires token', (done) => {
             request(app)
-                .post('/posts')
+                .post('/api/posts')
                 .send(posts)
                 .end((err, response) => {
                     assert(response.statusCode === 403);
@@ -88,7 +88,7 @@ describe('Posts controller', () => {
         });
         it('validates token', (done) => {
             request(app)
-                .post('/posts')
+                .post('/api/posts')
                 .set('x-access-token', 'asdf')
                 .send(posts)
                 .end((err, response) => {
@@ -97,13 +97,13 @@ describe('Posts controller', () => {
                     done();
                 });
         });
-        it('to /posts', (done) => {
+        it('to /api/posts', (done) => {
             YoutubeVideo.count()
                 .then((videoCount) => {
                     Article.count()
                         .then((articleCount) => {
                             request(app)
-                                .post('/posts')
+                                .post('/api/posts')
                                 .set('x-access-token', token)
                                 .send(posts)
                                 .end(() => {
@@ -119,9 +119,9 @@ describe('Posts controller', () => {
                 });
         });
 
-        it('to /posts [verify sources]', (done) => {
+        it('to /api/posts [verify sources]', (done) => {
             request(app)
-                .post('/posts')
+                .post('/api/posts')
                 .set('x-access-token', token)
                 .send(posts)
                 .end(() => {
@@ -166,7 +166,7 @@ describe('Posts controller', () => {
                     Article.count()
                         .then((articleCount) => {
                             request(app)
-                                .post('/posts')
+                                .post('/api/posts')
                                 .set('x-access-token', token)
                                 .send(sourcelessPosts)
                                 .end(() => {
@@ -220,9 +220,9 @@ describe('Posts controller', () => {
                 });
         });
 
-        it('from /posts', (done) => {
+        it('from /api/posts', (done) => {
             request(app)
-                .get('/posts')
+                .get('/api/posts')
                 .end((err, res) => {
                     const { posts: fetchedPosts } = res.body;
                     assert(fetchedPosts.length === 2);
@@ -232,14 +232,28 @@ describe('Posts controller', () => {
                 });
         });
 
-        it('from /posts?offset=1', (done) => {
+        it('from /api/posts?offset=1', (done) => {
             request(app)
-                .get('/posts?offset=1')
+                .get('/api/posts?offset=1')
                 .end((err, res) => {
                     const { posts: fetchedPosts } = res.body;
                     assert(fetchedPosts.length === 1);
                     assertVideoEquality(fetchedPosts[0], video);
                     done();
+                });
+        });
+
+        it('from /api/posts/[post-id]', (done) => {
+            Article.find()
+                .then((articles) => {
+                    const articlePost = articles[0];
+                    request(app)
+                        .get(`/api/articles/${articlePost._id}`)
+                        .end((err, res) => {
+                            const post = res.body;
+                            assertArticleEquality(post, articlePost);
+                            done();
+                        });
                 });
         });
     });

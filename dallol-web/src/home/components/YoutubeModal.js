@@ -12,6 +12,9 @@ const playerOpts = {
 
 const stylesheet = createStyleSheet('YoutubeModal', (theme) => {
     return {
+        dialogPaper: {
+            display: 'block',
+        },
         videoWrapper: {
             position: 'relative',
             paddingBottom: '56.25%',
@@ -23,7 +26,7 @@ const stylesheet = createStyleSheet('YoutubeModal', (theme) => {
                 top: '0',
                 left: '0',
                 width: '100%',
-                height: '100%',
+                height: '100%'
             }
         }
     };
@@ -57,11 +60,12 @@ class YoutubeModal extends Component {
                 open={true}
                 onRequestClose={this.closeModal}
                 onEntered={this.onEntered}
+                paperClassName={classes.dialogPaper}
                 >
                     { this.state && this.state.videoId &&
                         <div className={classes.videoWrapper}>
                             <Youtube
-                                videoId={this.props.videoId}
+                                videoId={this.state.videoId}
                                 opts={playerOpts}
                                 className={classes.youtubeElem}
                                 />
