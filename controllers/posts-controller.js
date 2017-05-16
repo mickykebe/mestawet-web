@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const sendPostsToTelegram = require('../post-processors/telegram');
 
 const Post = mongoose.model('post');
 const Article = mongoose.model('article');
@@ -69,7 +70,10 @@ module.exports = {
         const savedVids = youtubeVideos(posts).map(saveVideo);
 
         Promise.all([...savedArticles, ...savedVids])
-            .then(() => res.send({ success: true, message: 'Posts saved successfully' }))
+            .then((savedPosts) => {
+                res.send({ success: true, message: 'Posts saved successfully' });
+                sendPostsToTelegram(savedPosts);
+            })
             .catch(next);
     },
     getPosts(req, res, next) {
