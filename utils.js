@@ -26,12 +26,13 @@ function articleUrl(post) {
 }
 
 function fetchClientPostUrl(post) {
+    let url;
     if (post.kind === 'youtubeVideo') {
-        return youtubeVideoUrl(post);
+        url = youtubeVideoUrl(post);
     } else if (post.kind === 'article') {
-        return articleUrl(post);
+        url = articleUrl(post);
     }
-    return null;
+    return url;
 }
 
 module.exports.fetchClientPostUrl = fetchClientPostUrl;

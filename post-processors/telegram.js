@@ -2,34 +2,42 @@ const https = require('https');
 
 const fetchClientPostUrl = require('../utils').fetchClientPostUrl;
 
-let channelUserName = '@mestawet';
 const botToken = '370124055:AAGYWzIzSH25TJ0LSM49r7DBe7oWUiL6o6Y';
 const telegramApiHost = 'api.telegram.org';
 const telegramApiPath = `/bot${botToken}`;
 
-if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
-    channelUserName = '@mestawet_test';
+function channelUserName(postType) {
+    if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
+        return '@mestawet';
+    }
+    return postType === 'article' ? '@mestawet_news' : '@mestawet_videos';
 }
 
-function getTelegramMessage(text) {
+function htmlMessage(post) {
+    return `${post.source.title}
+            ${post.thumbnailUrl ? `<a href="${post.thumbnailUrl}">&#8205;</a>` : ''} <a href="${fetchClientPostUrl(post)}">${post.title}</a>`;
+}
+
+function telegramMessage(post) {
     const message = {
-        chat_id: channelUserName,
-        text,
+        chat_id: channelUserName(post.kind),
+        text: htmlMessage(post),
+        parse_mode: 'HTML',
         disable_notification: true,
     };
     return JSON.stringify(message);
 }
 
-function send(message) {
+function send(post) {
     return new Promise((resolve, reject) => {
-        const telegramMessage = getTelegramMessage(message);
+        const message = telegramMessage(post);
         const req = https.request({
             hostname: telegramApiHost,
             path: `${telegramApiPath}/sendMessage`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(telegramMessage),
+                'Content-Length': Buffer.byteLength(message),
             },
         }, (res) => {
             let data = '';
@@ -53,19 +61,13 @@ function send(message) {
             reject(e);
         });
 
-        req.write(telegramMessage);
+        req.write(message);
         req.end();
     })
     .catch(console.log);
 }
 
-function sendUrls(urls) {
-    return urls.reduce((seq, url) => seq.then(() => send(url)),
+module.exports = posts =>
+    posts.reduce((seq, post) =>
+        seq.then(() => send(post)),
         Promise.resolve());
-}
-
-module.exports = (posts) => {
-    const postUrls = posts.map(fetchClientPostUrl);
-    sendUrls(postUrls);
-    // Promise.all(postUrls.map(send));
-};
