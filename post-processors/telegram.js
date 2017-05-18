@@ -15,7 +15,8 @@ function channelUserName(postType) {
 
 function htmlMessage(post) {
     return `${post.source.title}
-            ${post.thumbnailUrl ? `<a href="${post.thumbnailUrl}">&#8205;</a>` : ''} <a href="${fetchClientPostUrl(post)}">${post.title}</a>`;
+            ${post.thumbnailUrl ? `<a href="${post.thumbnailUrl}">&#8205;</a>` : ''} <a href="${fetchClientPostUrl(post)}">${post.title}</a>
+            ${post.description ? post.description : ''}`;
 }
 
 function telegramMessage(post) {
