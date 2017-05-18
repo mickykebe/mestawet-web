@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import { getPosts, getSources } from './api';
 import ArticleCard from './components/ArticleCard';
 import YoutubeCard from './components/YoutubeCard';
-import YoutubeModal from './components/YoutubeModal';
 import Masonry from 'react-masonry-component';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from 'material-ui/Progress';
@@ -203,9 +201,6 @@ class Home extends Component {
           </InfiniteScroll>
         </div>
         <Alert stack={{limit: 3}} />
-        <Route path='/youtube/:id' render={({match, history}) => <YoutubeModal 
-        videoId={match.params.id}
-        history={history} />} />
       </div>
     );
   }
