@@ -118,5 +118,30 @@
         "crawlerId": "amharic-vines",
         "title": "Amharic Vines",
         "thumbnailUrl": "https://yt3.ggpht.com/-WxQePigIBs4/AAAAAAAAAAI/AAAAAAAAAAA/84A39JHTL-0/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ethiopianFoodie",
+        "title": "Ethiopian Foodie",
+        "thumbnailUrl": "https://yt3.ggpht.com/-azrhpESpM74/AAAAAAAAAAI/AAAAAAAAAAA/ZPQEEcgT4So/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "fikreSelam",
+        "title": "ፍቅረ ሰላም",
+        "thumbnailUrl": "https://yt3.ggpht.com/-qU54mU41iOc/AAAAAAAAAAI/AAAAAAAAAAA/zag-tyraqAM/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "mela",
+        "title": "Mela Productions",
+        "thumbnailUrl": "https://yt3.ggpht.com/-mmXK8nDw8XA/AAAAAAAAAAI/AAAAAAAAAAA/uMBnP208lto/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ethiopiaOnline",
+        "title": "Ethiopia Online",
+        "thumbnailUrl": "https://yt3.ggpht.com/-PEgTWRiYKJU/AAAAAAAAAAI/AAAAAAAAAAA/RNy3RynbLK8/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+    },
+    {
+        "crawlerId": "ethioInfo",
+        "title": "Ethio Info",
+        "thumbnailUrl": "https://yt3.ggpht.com/-skiVgHHemaY/AAAAAAAAAAI/AAAAAAAAAAA/EZ17XWOkbAw/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
     }
 ]
