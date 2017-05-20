@@ -6,6 +6,7 @@ import { lightGreen } from 'material-ui/styles/colors';
 import createMuiTheme from 'material-ui/styles/theme';
 import createPalette from 'material-ui/styles/palette';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import registerServiceWorker from './registerServiceWorker';
 
 const palette = createPalette({
   primary: lightGreen,
@@ -22,3 +23,4 @@ ReactDOM.render(
   </MuiThemeProvider>,
   document.getElementById('root')
 );
+registerServiceWorker();
