@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/posts', PostsController.getPosts);
 router.get('/articles/:id', PostsController.getArticle);
+router.get('/videos/:id', PostsController.getVideo);
 router.get('/sources', SourcesController.get);
 router.use((req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token || req.body.token;

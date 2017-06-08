@@ -3,7 +3,6 @@ import { CardMedia } from 'material-ui/Card';
 
 
 class DallolCardMedia extends Component {
-
     render() {
         const {classMainThumb} = this.props;
         return (

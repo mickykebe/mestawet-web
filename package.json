@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server-watch\" \"npm run client\" ",
+    "start": "concurrently \"npm run server-watch\" \"npm run client\"",
     "server-watch": "NODE_ENV=dev nodemon index.js",
     "server": "NODE_ENV=dev node index.js",
     "client": "cd dallol-web && npm start",

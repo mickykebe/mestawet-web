@@ -11,9 +11,9 @@ function slug(text) {
         .replace(/-+$/, '');            // Trim - from end of text
 }
 
-function youtubeVideoUrl(post) {
+function videoUrl(post) {
     if (post.videoId) {
-        return `${baseClientUrl}/youtube/${post.videoId}`;
+        return `${baseClientUrl}/video/${post._id}`;
     }
     return null;
 }
@@ -28,7 +28,7 @@ function articleUrl(post) {
 function fetchClientPostUrl(post) {
     let url;
     if (post.kind === 'youtubeVideo') {
-        url = youtubeVideoUrl(post);
+        url = videoUrl(post);
     } else if (post.kind === 'article') {
         url = articleUrl(post);
     }
@@ -36,3 +36,4 @@ function fetchClientPostUrl(post) {
 }
 
 module.exports.fetchClientPostUrl = fetchClientPostUrl;
+module.exports.trimText = (text = '') => text.slice(0, 250).concat('...');

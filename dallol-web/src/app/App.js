@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import configureStore from './configureStore';
 import Nav from './components/Nav';
-import Home from 'home/Home';
-import Article from 'article/Article';
-import { 
+import HomeContainer from 'home/containers/HomeContainer';
+import Article from 'article/containers/Article';
+import {
   Route,
   Switch,
   matchPath
 } from 'react-router-dom';
-import YoutubeModal from './components/YoutubeModal';
+import VideoModal from 'video/containers/VideoModal';
+
+const videoPath = '/video/:id';
 
 class Content extends Component {
 
-  previousLocation = '/'
+  previousLocation = { pathname: '/' };
 
   componentWillUpdate(nextProps) {
     const { location } = this.props;
@@ -23,7 +27,7 @@ class Content extends Component {
   }
 
   isModalLocation() {
-    return matchPath(this.props.location.pathname, {path: '/youtube/:id'}) !== null;
+    return matchPath(this.props.location.pathname, {path: videoPath}) !== null;
   }
  
   render() {
@@ -31,24 +35,28 @@ class Content extends Component {
       <div>
         <Nav />
         <Switch location={ this.isModalLocation() ? this.previousLocation : this.props.location }>
-          <Route component={Home} />
+          <Route component={HomeContainer} />
         </Switch>
-        <Route path='/youtube/:id' render={({match, history}) => 
-          <YoutubeModal 
-            videoId={match.params.id}
+        <Route path={videoPath} render={({match, history}) => 
+          <VideoModal 
+            id={match.params.id}
             history={history} />}
-            referrr={this.previousLocation} />
+            referrer={this.previousLocation} />
       </div>
     );
   }
 }
 
+const store = configureStore();
+
 function App() {
   return (
-    <Switch>
-      <Route path='/article/:id' component={Article} />
-      <Route component={Content} />
-    </Switch>
+    <Provider store={store}>
+      <Switch>
+        <Route path='/article/:id' component={Article} />
+        <Route component={Content} />
+      </Switch>
+    </Provider>
   );
 }
 
