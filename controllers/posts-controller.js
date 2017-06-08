@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const sendPostsToTelegram = require('../post-processors/telegram');
+const trimText = require('../utils').trimText;
 
 const Post = mongoose.model('post');
 const Article = mongoose.model('article');
@@ -26,7 +27,7 @@ function saveArticle(crawledArticle) {
                 title: crawledArticle.title,
                 url: crawledArticle.url,
                 thumbnailUrl: crawledArticle.thumbnailUrl,
-                description: crawledArticle.description,
+                description: trimText(crawledArticle.description),
             });
 
             article.source = source;
@@ -103,15 +104,21 @@ module.exports = {
     },
     getArticle(req, res, next) {
         const postId = req.params.id;
-        if (!postId) {
-            next(new Error('No article id provided'));
-            return;
-        }
-
         Article.findById(postId)
             .then((post) => {
                 if (!post) {
                     throw new Error('Unable to retreive article');
+                }
+                res.send(post);
+            })
+            .catch(next);
+    },
+    getVideo(req, res, next) {
+        const postId = req.params.id;
+        YoutubeVideo.findById(postId)
+            .then((post) => {
+                if (!post) {
+                    throw new Error('Unable to retreive video');
                 }
                 res.send(post);
             })

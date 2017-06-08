@@ -18,12 +18,6 @@ class ArticleCard extends Component {
         source: PropTypes.object.isRequired,
     }
 
-    /*handleClick(e) {
-        if(window.getSelection().toString().length === 0){
-            window.open(this.props.article.url, '_blank');
-        }
-    }*/
-
     render() {
         const { _id: id, thumbnailUrl, title, description, date } = this.props.article;
         const { thumbnailUrl: srcThumbUrl, title: srcTitle } = this.props.source;

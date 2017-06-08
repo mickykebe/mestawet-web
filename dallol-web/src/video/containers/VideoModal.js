@@ -3,6 +3,8 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import Dialog from 'material-ui/Dialog';
 import Youtube from 'react-youtube';
+import { connect } from 'react-redux';
+import { fetchVideo } from 'video/actions';
 
 const playerOpts = {
         playerVars: {
@@ -32,21 +34,41 @@ const stylesheet = createStyleSheet('YoutubeModal', (theme) => {
     };
 });
 
-class YoutubeModal extends Component {
+class VideoModal extends Component {
     static contextTypes = {
         styleManager: customPropTypes.muiRequired,
     }
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
-        this.onEntered = this.onEntered.bind(this);
+        //this.onEntered = this.onEntered.bind(this);
+        this.setVideo = this.setVideo.bind(this);
+    }
+
+    setVideo(video) {
+        this.setState({
+            video,
+        });
+    }
+
+    componentDidMount() {
+        const { id, video, fetchVideo } = this.props;
+        if(!video){
+            fetchVideo(id);
+        }
+    }
+
+    /*componentDidUpdate(prevProps){
+        if(prevProps.video !== this.props.video) {
+            this.setVideo();
+        }
     }
 
     onEntered() {
-        this.setState({
-            videoId: this.props.videoId,
-        });
-    }
+        if(this.props.video) {
+            this.setVideo();
+        }
+    }*/
 
     closeModal() {
         const backLocation = this.props.referrer ? this.props.referrer : '/';
@@ -63,10 +85,10 @@ class YoutubeModal extends Component {
                 onEntered={this.onEntered}
                 paperClassName={classes.dialogPaper}
                 >
-                    { this.state && this.state.videoId &&
+                    { this.props && this.props.video &&
                         <div className={classes.videoWrapper}>
                             <Youtube
-                                videoId={this.state.videoId}
+                                videoId={this.props.video.videoId}
                                 opts={playerOpts}
                                 className={classes.youtubeElem}
                                 />
@@ -77,4 +99,17 @@ class YoutubeModal extends Component {
     }
 }
 
-export default YoutubeModal;
+const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps;
+  const video = state.videos.youtubeVideos[ownProps.id];
+
+  return { id, video };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchVideo: (id) => dispatch(fetchVideo(id)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoModal);

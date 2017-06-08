@@ -43,12 +43,12 @@ class YoutubeCard extends React.Component {
 
     render() {
         const classes = this.context.styleManager.render(stylesheet);
-        const { thumbnailUrl, title, date } = this.props.video;
+        const { _id: id, thumbnailUrl, title, date } = this.props.video;
         const { thumbnailUrl:srcThumbUrl, title:srcTitle } = this.props.source;
 
         return (
             <Link to={{
-                pathname: `/youtube/${this.props.video.videoId}`,
+                pathname: `/video/${id}`,
             }}>
                 <DallolCard className={classes.videoCard}>
                     <CardHeader
