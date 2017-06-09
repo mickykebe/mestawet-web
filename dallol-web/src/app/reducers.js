@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import home from 'home/reducers';
 import { 
-  HOME_POSTS_FETCH_RESULT_ACTIONS, 
+  HOME_POSTS_FETCH_RESULT_ACTIONS,
+  HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS,
   SOURCES_FETCH_RESULT_ACTIONS,
 } from 'home/actions';
 import {
@@ -19,6 +20,7 @@ const ui = (state = {
 }, action) => {
   switch(action.type) {
     case HOME_POSTS_FETCH_RESULT_ACTIONS.PENDING:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.PENDING:
     case SOURCES_FETCH_RESULT_ACTIONS.PENDING:
     case VIDEO_FETCH_RESULT_ACTIONS.PENDING:
     case ARTICLE_FETCH_RESULT_ACTIONS.PENDING: {
@@ -27,6 +29,7 @@ const ui = (state = {
       });
     }
     case HOME_POSTS_FETCH_RESULT_ACTIONS.ERROR:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.ERROR:
     case SOURCES_FETCH_RESULT_ACTIONS.ERROR:
     case VIDEO_FETCH_RESULT_ACTIONS.ERROR:
     case ARTICLE_FETCH_RESULT_ACTIONS.ERROR: {
@@ -36,6 +39,7 @@ const ui = (state = {
       });
     }
     case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.SUCCESS:
     case SOURCES_FETCH_RESULT_ACTIONS.SUCCESS:
     case VIDEO_FETCH_RESULT_ACTIONS.SUCCESS:
     case ARTICLE_FETCH_RESULT_ACTIONS.SUCCESS: {
@@ -51,7 +55,8 @@ const ui = (state = {
 
 const youtubeVideos = (state = {}, action) => {
   switch(action.type) {
-    case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS: {
+    case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, action.data.posts.entities[SCHEMA_NAME_YOUTUBEVIDEOS])
     }
     case VIDEO_FETCH_RESULT_ACTIONS: {
@@ -67,6 +72,7 @@ const videos = (state = {
 }, action) => {
   switch(action.type) {
     case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.SUCCESS:
     case VIDEO_FETCH_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, {
         youtubeVideos: youtubeVideos(state.youtubeVideos, action),
@@ -79,7 +85,8 @@ const videos = (state = {
 
 const articles = (state = {}, action) => {
   switch(action.type) {
-    case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS: {
+    case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS:
+    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, action.data.posts.entities[SCHEMA_NAME_ARTICLES]);
     }
     case ARTICLE_FETCH_RESULT_ACTIONS.SUCCESS: {
