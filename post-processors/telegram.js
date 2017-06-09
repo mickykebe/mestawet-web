@@ -70,5 +70,9 @@ function send(post) {
 
 module.exports = posts =>
     posts.reduce((seq, post) =>
-        seq.then(() => send(post)),
+        seq.then(() => {
+            if (post) {
+                send(post);
+            }
+        }),
         Promise.resolve());
