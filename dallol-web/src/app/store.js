@@ -21,7 +21,6 @@ function configureStore(preloadedState) {
 
 const store = configureStore(loadState());
 store.subscribe(throttle(() => {
-  console.log('saving state');
   saveState({
     sources: store.getState().sources,
     videos: store.getState().videos,

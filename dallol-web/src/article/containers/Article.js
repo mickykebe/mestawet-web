@@ -3,17 +3,30 @@ import { connect } from 'react-redux';
 import { fetchArticle } from 'article/actions';
 
 class Article extends Component {
+    constructor(props){
+        super(props);
+
+        this.openArticle = this.openArticle.bind(this);
+    }
+
+    openArticle(article) {
+        window.open(article.url, '_self');
+    }
+
     componentDidMount() {
         const { id, article, fetchArticle } = this.props;
         if(!article) {
             fetchArticle(id);
+        }
+        else {
+            this.openArticle(article)
         }
     }
 
     componentDidUpdate() {
         const { article } = this.props;
         if(article) {
-            window.open(article.url, '_self');
+            this.openArticle(article);
         }
     }
 
