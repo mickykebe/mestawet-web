@@ -9,12 +9,16 @@ const router = express.Router();
 router.get('/posts', PostsController.getPosts);
 router.get('/articles/:id', (req, res, next) => {
     PostsController.getArticle(req.params.id)
-        .then(res.send)
+        .then((post) => {
+            res.send(post)
+        })
         .catch(next);
 });
 router.get('/videos/:id', (req, res, next) => {
     PostsController.getVideo(req.params.id)
-        .then(res.send)
+        .then((post) => {
+            res.send(post)
+        })
         .catch(next);
 });
 router.get('/sources', SourcesController.get);
