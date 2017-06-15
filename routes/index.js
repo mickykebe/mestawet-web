@@ -7,8 +7,16 @@ const SourcesController = require('../controllers/sources-controller');
 const router = express.Router();
 
 router.get('/posts', PostsController.getPosts);
-router.get('/articles/:id', PostsController.getArticle);
-router.get('/videos/:id', PostsController.getVideo);
+router.get('/articles/:id', (req, res, next) => {
+    PostsController.getArticle(req.params.id)
+        .then(res.send)
+        .catch(next);
+});
+router.get('/videos/:id', (req, res, next) => {
+    PostsController.getVideo(req.params.id)
+        .then(res.send)
+        .catch(next);
+});
 router.get('/sources', SourcesController.get);
 router.use((req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token || req.body.token;

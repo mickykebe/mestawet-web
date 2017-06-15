@@ -7,7 +7,7 @@ const telegramApiHost = 'api.telegram.org';
 const telegramApiPath = `/bot${botToken}`;
 
 function channelUserName(postType) {
-    if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
         return '@mestawet';
     }
     return postType === 'article' ? '@mestawet_news' : '@mestawet_videos';
@@ -19,11 +19,15 @@ function htmlMessage(post) {
             ${post.description ? post.description : ''}`;
 }
 
+function textMessage(post) {
+    return fetchClientPostUrl(post);
+}
+
 function telegramMessage(post) {
     const message = {
         chat_id: channelUserName(post.kind),
-        text: htmlMessage(post),
-        parse_mode: 'HTML',
+        text: textMessage(post),
+        //parse_mode: 'HTML',
         disable_notification: true,
     };
     return JSON.stringify(message);
