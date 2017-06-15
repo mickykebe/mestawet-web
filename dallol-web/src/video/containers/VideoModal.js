@@ -41,7 +41,6 @@ class VideoModal extends Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
-        //this.onEntered = this.onEntered.bind(this);
         this.setVideo = this.setVideo.bind(this);
     }
 
@@ -58,18 +57,6 @@ class VideoModal extends Component {
         }
     }
 
-    /*componentDidUpdate(prevProps){
-        if(prevProps.video !== this.props.video) {
-            this.setVideo();
-        }
-    }
-
-    onEntered() {
-        if(this.props.video) {
-            this.setVideo();
-        }
-    }*/
-
     closeModal() {
         const backLocation = this.props.referrer ? this.props.referrer : '/';
         this.props.history.push(backLocation);
@@ -82,7 +69,6 @@ class VideoModal extends Component {
             <Dialog
                 open={true}
                 onRequestClose={this.closeModal}
-                onEntered={this.onEntered}
                 paperClassName={classes.dialogPaper}
                 >
                     { this.props && this.props.video &&

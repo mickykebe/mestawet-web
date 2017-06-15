@@ -3,15 +3,14 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Nav from './components/Nav';
 import HomeContainer from 'home/containers/HomeContainer';
-import Article from 'article/containers/Article';
 import {
   Route,
   Switch,
   matchPath
 } from 'react-router-dom';
+import { articlePath, videoPath } from 'app/routes';
+import Article from 'article/containers/Article';
 import VideoModal from 'video/containers/VideoModal';
-
-const videoPath = '/video/:id';
 
 class Content extends Component {
 
@@ -27,7 +26,7 @@ class Content extends Component {
   }
 
   isModalLocation() {
-    return matchPath(this.props.location.pathname, {path: videoPath}) !== null;
+    return matchPath(this.props.location.pathname, { path: videoPath }) !== null;
   }
  
   render() {
@@ -51,7 +50,7 @@ function App() {
   return (
     <Provider store={store}>
       <Switch>
-        <Route path='/article/:id' component={Article} />
+        <Route path={articlePath} component={Article} />
         <Route component={Content} />
       </Switch>
     </Provider>

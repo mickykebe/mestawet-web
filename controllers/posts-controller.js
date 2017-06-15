@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const he = require('he');
 const sendPostsToTelegram = require('../post-processors/telegram');
-const trimText = require('../utils').trimText;
+const { trimText, fetchClientPostUrl, htmlPlaceholders } = require('../utils');
 
 const Post = mongoose.model('post');
 const Article = mongoose.model('article');
@@ -64,6 +65,26 @@ function saveVideo(crawledYoutubeVideo) {
         });
 }
 
+function getVideo(postId) {
+    return YoutubeVideo.findById(postId)
+        .then((post) => {
+            if (!post) {
+                throw new Error('Unable to retreive video');
+            }
+            return post;
+        });
+}
+
+function getArticle(postId) {
+    return Article.findById(postId)
+        .then((post) => {
+            if (!post) {
+                throw new Error('Unable to retreive article');
+            }
+            return post;
+        });
+}
+
 module.exports = {
     create(req, res, next) {
         const posts = req.body;
@@ -102,26 +123,33 @@ module.exports = {
             })
             .catch(next);
     },
-    getArticle(req, res, next) {
-        const postId = req.params.id;
-        Article.findById(postId)
+    getVideo,
+    getArticle,
+    getArticleMetas(postId) {
+        return getArticle(postId)
             .then((post) => {
-                if (!post) {
-                    throw new Error('Unable to retreive article');
-                }
-                res.send(post);
-            })
-            .catch(next);
+                return {
+                    [htmlPlaceholders.ogType]: 'article',
+                    [htmlPlaceholders.ogTitle]: he.encode(post.title),
+                    [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
+                    [htmlPlaceholders.ogImage]: he.encode(post.thumbnailUrl),
+                    [htmlPlaceholders.ogDescription]: he.encode(post.description),
+                    [htmlPlaceholders.ogImageWidth]: 480,
+                    [htmlPlaceholders.ogImageHeight]: 360,
+                };
+            });
     },
-    getVideo(req, res, next) {
-        const postId = req.params.id;
-        YoutubeVideo.findById(postId)
+    getVideoMetas(postId) {
+        return getVideo(postId)
             .then((post) => {
-                if (!post) {
-                    throw new Error('Unable to retreive video');
-                }
-                res.send(post);
-            })
-            .catch(next);
+                return {
+                    [htmlPlaceholders.ogType]: 'video.other',
+                    [htmlPlaceholders.ogTitle]: he.encode(post.title),
+                    [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
+                    [htmlPlaceholders.ogImage]: he.encode(post.thumbnailUrl),
+                    [htmlPlaceholders.ogImageWidth]: 480,
+                    [htmlPlaceholders.ogImageHeight]: 360,
+                };
+            });
     },
 };
