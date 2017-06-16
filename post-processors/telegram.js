@@ -13,21 +13,22 @@ function channelUserName(postType) {
     return postType === 'article' ? '@mestawet_news' : '@mestawet_videos';
 }
 
-function htmlMessage(post) {
+/*function htmlMessage(post) {
     return `${post.source.title}
             ${post.thumbnailUrl ? `<a href="${post.thumbnailUrl}">&#8205;</a>` : ''} <a href="${fetchClientPostUrl(post)}">${post.title}</a>
             ${post.description ? post.description : ''}`;
-}
+}*/
 
-function textMessage(post) {
-    return fetchClientPostUrl(post);
+function htmlMessage(post) {
+    return `${post.source.title}
+<a href="${fetchClientPostUrl(post)}">${post.title}</a>`;
 }
 
 function telegramMessage(post) {
     const message = {
         chat_id: channelUserName(post.kind),
-        text: textMessage(post),
-        //parse_mode: 'HTML',
+        text: htmlMessage(post),
+        parse_mode: 'HTML',
         disable_notification: true,
     };
     return JSON.stringify(message);
@@ -76,7 +77,7 @@ module.exports = posts =>
     posts.reduce((seq, post) =>
         seq.then(() => {
             if (post) {
-                send(post);
+                return send(post);
             }
         }),
         Promise.resolve());

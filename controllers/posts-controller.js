@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const he = require('he');
 const sendPostsToTelegram = require('../post-processors/telegram');
+const sendPostsToFacebook = require('../post-processors/facebook');
 const { trimText, fetchClientPostUrl, htmlPlaceholders } = require('../utils');
 
 const Post = mongoose.model('post');
@@ -94,6 +95,7 @@ module.exports = {
         Promise.all([...savedArticles, ...savedVids])
             .then((savedPosts) => {
                 res.send({ success: true, message: 'Posts saved successfully' });
+                sendPostsToFacebook(savedPosts);
                 sendPostsToTelegram(savedPosts);
             })
             .catch(next);
