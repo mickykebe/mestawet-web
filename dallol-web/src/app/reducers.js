@@ -59,7 +59,7 @@ const youtubeVideos = (state = {}, action) => {
     case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, action.data.posts.entities[SCHEMA_NAME_YOUTUBEVIDEOS])
     }
-    case VIDEO_FETCH_RESULT_ACTIONS: {
+    case VIDEO_FETCH_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, action.data.entities[SCHEMA_NAME_YOUTUBEVIDEOS])
     }
     default:

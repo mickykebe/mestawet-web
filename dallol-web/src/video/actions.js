@@ -15,3 +15,11 @@ export const fetchVideo = (id, ...nextActions) => {
   }
 }
 
+export const fetchVideoIfNeeded = (id, ...nextActions) => {
+  return (dispatch, getState) => {
+    if(!getState().videos.youtubeVideos[id]) {
+      dispatch(fetchVideo(id, ...nextActions));
+    }
+  };
+}
+

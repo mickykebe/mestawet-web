@@ -1,6 +1,6 @@
 const rp = require('request-promise-native');
 const { fetchClientPostUrl } = require('../utils');
-const { throttle }= require('lodash');
+const { throttle } = require('lodash');
 
 function send(post) {
   return rp({
