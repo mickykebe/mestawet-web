@@ -9,7 +9,7 @@ import {
   matchPath
 } from 'react-router-dom';
 import { articlePath, videoPath } from 'app/routes';
-import Article from 'article/containers/Article';
+import AsyncArticle from 'article/containers/AsyncArticle';
 import VideoModal from 'video/containers/VideoModal';
 
 class Content extends Component {
@@ -50,7 +50,7 @@ function App() {
   return (
     <Provider store={store}>
       <Switch>
-        <Route path={articlePath} component={Article} />
+        <Route path={articlePath} component={AsyncArticle} />
         <Route component={Content} />
       </Switch>
     </Provider>
