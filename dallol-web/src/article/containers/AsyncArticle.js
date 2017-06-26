@@ -7,6 +7,7 @@ class AsyncArticle extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { article: null };
     this.redirectIfNecessary = this.redirectIfNecessary.bind(this);
   }
 
@@ -28,7 +29,10 @@ class AsyncArticle extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if(prevProps.article === this.props.article) {
+      return;
+    }
     const { article } = this.props;
     if(article) {
       this.redirectIfNecessary(article);
@@ -43,9 +47,10 @@ class AsyncArticle extends Component {
     if (!article || !article.textContent) {
       return null;
     }
-    const { thumbnailUrl:srcThumbnailUrl, title:srcTitle } = article;
+    const source = this.props.sources[article.source];
+    const { thumbnailUrl: srcThumbnailUrl, title: srcTitle } = source;
     return (<Article 
-      thubmbnailUrl={article.thubmbnailUrl}
+      thumbnailUrl={article.thumbnailUrl}
       title={article.title}
       url={article.url}
       textContent={article.textContent}

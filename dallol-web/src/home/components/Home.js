@@ -11,7 +11,7 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
-const styleSheet = createStyleSheet('App', theme => ({
+const styleSheet = createStyleSheet('Home', theme => ({
   '@global': {
     html: {
       boxSizing: 'border-box',
@@ -37,11 +37,6 @@ const styleSheet = createStyleSheet('App', theme => ({
       height: 'auto',
       width: 'auto',
     },
-  },
-  content: {
-    padding: '80px 8px 8px',
-    maxWidth: '1280px',
-    margin: '0 auto',
   },
   gridItem: {
     width: '100%',
@@ -119,22 +114,20 @@ class Home extends Component {
 
     return (
       <div>
-        <div className={classes.content}>
-          <InfiniteScroll
-              pageStart={0}
-              hasMore={this.props.hasMore}
-              loadMore={this.props.loadMore}
-              loader={
-                <div className={classes.spinnerContainer}>
-                  <CircularProgress className={classes.loadingSpinner} size={50} />
-                </div>}>
-            <Masonry
-              options={masonryOptions}
-              updateOnEachImageLoad={true}>
-              {this.props.posts.map(this.renderPost)}
-            </Masonry>
-          </InfiniteScroll>
-        </div>
+        <InfiniteScroll
+            pageStart={0}
+            hasMore={this.props.hasMore}
+            loadMore={this.props.loadMore}
+            loader={
+              <div className={classes.spinnerContainer}>
+                <CircularProgress className={classes.loadingSpinner} size={50} />
+              </div>}>
+          <Masonry
+            options={masonryOptions}
+            updateOnEachImageLoad={true}>
+            {this.props.posts.map(this.renderPost)}
+          </Masonry>
+        </InfiniteScroll>
         <Alert stack={{limit: 3}} />
       </div>
     );

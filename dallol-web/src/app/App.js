@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
+import { createStyleSheet } from 'jss-theme-reactor';
+import customPropTypes from 'material-ui/utils/customPropTypes';
 import Nav from './components/Nav';
 import HomeContainer from 'home/containers/HomeContainer';
 import {
@@ -12,7 +12,18 @@ import { articlePath, videoPath } from 'app/routes';
 import AsyncArticle from 'article/containers/AsyncArticle';
 import VideoModal from 'video/containers/VideoModal';
 
+const stylesheet = createStyleSheet('Content', theme => ({
+  'content': {
+    padding: '80px 8px 8px',
+    maxWidth: '1280px',
+    margin: '0 auto',
+  }
+}));
+
 class Content extends Component {
+  static contextTypes = {
+    styleManager: customPropTypes.muiRequired,
+  };
 
   previousLocation = { pathname: '/' };
 
@@ -30,17 +41,22 @@ class Content extends Component {
   }
  
   render() {
+    const classes = this.context.styleManager.render(stylesheet);
+
     return (
       <div>
         <Nav />
-        <Switch location={ this.isModalLocation() ? this.previousLocation : this.props.location }>
-          <Route component={HomeContainer} />
-        </Switch>
-        <Route path={videoPath} render={({match, history}) => 
-          <VideoModal 
-            id={match.params.id}
-            history={history} />}
-            referrer={this.previousLocation} />
+        <div className={classes.content}>
+          <Switch location={ this.isModalLocation() ? this.previousLocation : this.props.location }>
+            <Route path={articlePath} component={AsyncArticle} />
+            <Route component={HomeContainer} />
+          </Switch>
+          <Route path={videoPath} render={({match, history}) =>
+            <VideoModal
+              id={match.params.id}
+              history={history} />}
+              referrer={this.previousLocation} />
+        </div>
       </div>
     );
   }
@@ -48,12 +64,7 @@ class Content extends Component {
 
 function App() {
   return (
-    <Provider store={store}>
-      <Switch>
-        <Route path={articlePath} component={AsyncArticle} />
-        <Route component={Content} />
-      </Switch>
-    </Provider>
+    <Route component={Content} />
   );
 }
 
