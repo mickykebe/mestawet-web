@@ -52,7 +52,7 @@ class VideoModal extends Component {
     }
 
     closeModal() {
-        const backLocation = this.props.referrer ? this.props.referrer : '/';
+        const backLocation = this.props.prevLocation ? this.props.prevLocation.pathname : '/';
         this.props.history.push(backLocation);
     }
 

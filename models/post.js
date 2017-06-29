@@ -23,6 +23,7 @@ const ArticleSchema = new Schema({
         required: [true, 'Url is required'],
     },
     description: String,
+    textContent: String,
 }, { discriminatorKey: 'kind', id: false, _id: false });
 ArticleSchema.index({ url: 1 }, { unique: true, sparse: true });
 

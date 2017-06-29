@@ -25,7 +25,7 @@ class ArticleCard extends Component {
         return (
             <Link to={{
                 pathname: `/article/${id}/${slug(title)}`,
-            }} target="_blank">
+            }}>
                 <DallolCard>
                     <CardHeader
                         title={srcTitle}

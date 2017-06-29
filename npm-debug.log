@@ -14,7 +14,7 @@
 4 verbose stack     at tryToString (fs.js:456:3)
 4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:443:12)
 5 verbose cwd /home/michael/Documents/dev/node/dallol-server
-6 error Linux 4.8.0-54-generic
+6 error Linux 4.8.0-56-generic
 7 error argv "/usr/bin/nodejs" "/usr/bin/npm" "run" "build"
 8 error node v6.11.0
 9 error npm  v3.10.10

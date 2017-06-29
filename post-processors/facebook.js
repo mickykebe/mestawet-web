@@ -11,15 +11,18 @@ function send(post) {
       message: `${post.title}
       - from ${post.source.title}`,
       link: fetchClientPostUrl(post),
-    }
+    },
   }).catch(console.log);
 }
 
-module.exports = posts => {
-  posts.reduce((seq, post) => 
-    seq.then(() => {
-      if(post)
-        return throttle(() => send(post), 3000)();
-    }),
+module.exports = (posts) => {
+  if (process.env.NODE_ENV !== 'development') {
+    posts.reduce((seq, post) =>
+      seq.then(() => {
+        if (post) {
+          return throttle(() => send(post), 3000)();
+        }
+      }),
     Promise.resolve());
+  }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
+import { createStyleSheet } from 'jss-theme-reactor';
+import customPropTypes from 'material-ui/utils/customPropTypes';
 import Nav from './components/Nav';
 import HomeContainer from 'home/containers/HomeContainer';
 import {
@@ -8,13 +8,27 @@ import {
   Switch,
   matchPath
 } from 'react-router-dom';
-import { articlePath, videoPath } from 'app/routes';
-import Article from 'article/containers/Article';
+import { connect } from 'react-redux';
+import { homePath, articlePath, videoPath } from 'app/routes';
+import AsyncArticle from 'article/containers/AsyncArticle';
 import VideoModal from 'video/containers/VideoModal';
+import { fetchSources, fetchHomePosts } from 'home/actions';
+import { withRouter } from 'react-router';
+
+const stylesheet = createStyleSheet('Content', theme => ({
+  'content': {
+    padding: '80px 8px 8px',
+    maxWidth: '1280px',
+    margin: '0 auto',
+  }
+}));
 
 class Content extends Component {
+  static contextTypes = {
+    styleManager: customPropTypes.muiRequired,
+  };
 
-  previousLocation = { pathname: '/' };
+  previousLocation = null;
 
   componentWillUpdate(nextProps) {
     const { location } = this.props;
@@ -30,31 +44,50 @@ class Content extends Component {
   }
  
   render() {
+    const classes = this.context.styleManager.render(stylesheet);
+    const prevLocOrHome = this.previousLocation || { pathname: '/' };
+
     return (
       <div>
-        <Nav />
-        <Switch location={ this.isModalLocation() ? this.previousLocation : this.props.location }>
-          <Route component={HomeContainer} />
-        </Switch>
-        <Route path={videoPath} render={({match, history}) => 
-          <VideoModal 
-            id={match.params.id}
-            history={history} />}
-            referrer={this.previousLocation} />
+        <Route component={Nav} />
+        <div className={classes.content}>
+          <Switch location={ this.isModalLocation() ? prevLocOrHome : this.props.location }>
+            <Route path={articlePath} render={({match, history}) => 
+              <AsyncArticle
+                match={match}
+                history={history}
+                prevLocation={this.previousLocation} />
+            }/>
+            <Route path={homePath} component={HomeContainer} />
+          </Switch>
+          <Route path={videoPath} render={({match, history}) =>
+            <VideoModal
+              id={match.params.id}
+              history={history}
+              prevLocation={prevLocOrHome} />} />
+        </div>
       </div>
     );
   }
 }
 
-function App() {
-  return (
-    <Provider store={store}>
-      <Switch>
-        <Route path={articlePath} component={Article} />
-        <Route component={Content} />
-      </Switch>
-    </Provider>
-  );
+class App extends Component {
+
+  componentWillMount() {
+    this.props.getPosts();
+  }
+
+  render() {
+    return (
+      <Route component={Content} />
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+     getPosts: () => dispatch(fetchSources(() => fetchHomePosts())) 
+    };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(App));

@@ -49,6 +49,7 @@ class YoutubeCard extends React.Component {
         return (
             <Link to={{
                 pathname: `/video/${id}`,
+                state: { modal: true },
             }}>
                 <DallolCard className={classes.videoCard}>
                     <CardHeader

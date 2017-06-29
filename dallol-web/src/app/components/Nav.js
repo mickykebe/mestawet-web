@@ -4,17 +4,31 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Grid from 'material-ui/Grid';
 import logo from '../img/mestawet-logo.png';
+import IconButton from 'material-ui/IconButton';
+import Icon from 'material-ui/Icon';
+import { homePath } from 'app/routes';
 
 const stylesheet = createStyleSheet('Nav', (theme) => {
     return {
         appBar: {
-            backgroundColor: '#fff',
+          backgroundColor: '#fff'
+        },
+        toolbar: {
+          position: 'relative',
+          height: '64px',
         },
         logo: {
-            maxHeight: '60px',
-            maxWidth: '60px',
+          maxHeight: '60px',
+          maxWidth: '60px',
+        },
+        logoWrap: {
+          position: 'absolute',
+          left: '50%',
+          top: '23px',
+          bottom: '0',
+          webkitTransform: 'translate(-50%, -50%)',
+          transform: 'translate(-50%, -50%)',
         },
     };
 });
@@ -23,19 +37,32 @@ class Nav extends Component {
     static contextTypes = {
         styleManager: customPropTypes.muiRequired,
     }
+
+    constructor(props) {
+      super(props);
+
+      this.onBackClick = this.onBackClick.bind(this);
+    }
+
+    onBackClick() {
+      this.props.history.push(homePath);
+    }
+
     render() {
         const classes = this.context.styleManager.render(stylesheet);
 
         return (
             <AppBar className={classes.appBar}>
-                <Toolbar>
-                    <Grid container justify="center">
-                        <Grid item sm={12} lg={8}>
-                            <Link to="/">
-                                <img className={classes.logo} src={logo} alt="Mestawet logo" />
-                            </Link>
-                        </Grid>
-                    </Grid>
+                <Toolbar className={classes.toolbar}>
+                  {
+                    this.props.location.pathname !== homePath &&
+                    <IconButton onClick={this.onBackClick} aria-label="Back">
+                      <Icon>arrow_back</Icon>
+                    </IconButton>
+                  }
+                  <Link className={classes.logoWrap} to="/">
+                      <img className={classes.logo} src={logo} alt="Mestawet logo" />
+                  </Link>
                 </Toolbar>
             </AppBar>
         );
