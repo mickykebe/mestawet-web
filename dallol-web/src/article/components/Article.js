@@ -8,6 +8,7 @@ import Grid from 'material-ui/Grid';
 import Avatar from 'material-ui/Avatar';
 import moment from 'moment';
 import Icon from 'material-ui/Icon';
+import IconButton from 'material-ui/IconButton';
 import classnames from 'classnames';
 
 const stylesheet = createStyleSheet('Article', theme => ({
@@ -51,6 +52,9 @@ const stylesheet = createStyleSheet('Article', theme => ({
   'textContent': {
     textAlign: 'justify',
   },
+  actions: {
+    padding: '10px',
+  },
   '@media (min-width: 600px)': {
     'content': {
       position: 'absolute',
@@ -78,6 +82,16 @@ class Article extends Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.openExternally = this.openExternally.bind(this);
+  }
+
+  openExternally() {
+    window.open(this.props.url);
+  }
 
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -115,6 +129,11 @@ class Article extends Component {
                   <Icon className={classes.dateIcon}>access_time</Icon>
                   {moment(date).fromNow()}
                 </Typography>
+                <div>
+                  <IconButton aria-label="open external" onClick={this.openExternally}>
+                    <Icon>open_in_new</Icon>
+                  </IconButton>
+                </div>
               </div>
               <Typography type='body1' component='p' className={classes.textContent} dangerouslySetInnerHTML={{ __html: textContent }} />
             </Paper>
