@@ -69,10 +69,6 @@ class Home extends Component {
     this.wrapGridItem = this.wrapGridItem.bind(this);
   }
 
-  componentWillMount() {
-    this.props.getPosts();
-  }
-
   componentDidUpdate() {
     if(this.props.fetchError){
       Alert.error('Problem occurred fetching from server. Please try again later.', {

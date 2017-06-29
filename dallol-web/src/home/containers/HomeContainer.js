@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchSources, fetchHomePosts, fetchHomeNextPosts } from 'home/actions';
+import { fetchHomeNextPosts } from 'home/actions';
 import Home from 'home/components/Home';
 import { flatFilter, sortByDate } from 'app/utils';
 
@@ -21,7 +21,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: () => dispatch(fetchSources(() => fetchHomePosts())),
     loadMore: () => dispatch(fetchHomeNextPosts()),
   }
 }

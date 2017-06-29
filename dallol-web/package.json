@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3050/",
   "dependencies": {
+    "classnames": "^2.2.5",
     "jss-theme-reactor": "^0.11.1",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-alpha.12",

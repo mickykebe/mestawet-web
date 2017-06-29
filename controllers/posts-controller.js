@@ -135,7 +135,7 @@ module.exports = {
               [htmlPlaceholders.ogType]: 'article',
               [htmlPlaceholders.ogTitle]: he.encode(post.title),
               [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
-              [htmlPlaceholders.ogImage]: he.encode(post.thumbnailUrl),
+              [htmlPlaceholders.ogImage]: encodeURI(post.thumbnailUrl),
               [htmlPlaceholders.ogDescription]: he.encode(post.description),
               [htmlPlaceholders.ogImageWidth]: 480,
               [htmlPlaceholders.ogImageHeight]: 360,
@@ -147,7 +147,7 @@ module.exports = {
               [htmlPlaceholders.ogType]: 'video.other',
               [htmlPlaceholders.ogTitle]: he.encode(post.title),
               [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
-              [htmlPlaceholders.ogImage]: he.encode(post.thumbnailUrl),
+              [htmlPlaceholders.ogImage]: encodeURI(post.thumbnailUrl),
               [htmlPlaceholders.ogImageWidth]: 480,
               [htmlPlaceholders.ogImageHeight]: 360,
             }));

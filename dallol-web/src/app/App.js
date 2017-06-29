@@ -8,9 +8,12 @@ import {
   Switch,
   matchPath
 } from 'react-router-dom';
-import { articlePath, videoPath } from 'app/routes';
+import { connect } from 'react-redux';
+import { homePath, articlePath, videoPath } from 'app/routes';
 import AsyncArticle from 'article/containers/AsyncArticle';
 import VideoModal from 'video/containers/VideoModal';
+import { fetchSources, fetchHomePosts } from 'home/actions';
+import { withRouter } from 'react-router';
 
 const stylesheet = createStyleSheet('Content', theme => ({
   'content': {
@@ -25,7 +28,7 @@ class Content extends Component {
     styleManager: customPropTypes.muiRequired,
   };
 
-  previousLocation = { pathname: '/' };
+  previousLocation = null;
 
   componentWillUpdate(nextProps) {
     const { location } = this.props;
@@ -42,30 +45,49 @@ class Content extends Component {
  
   render() {
     const classes = this.context.styleManager.render(stylesheet);
+    const prevLocOrHome = this.previousLocation || { pathname: '/' };
 
     return (
       <div>
-        <Nav />
+        <Route component={Nav} />
         <div className={classes.content}>
-          <Switch location={ this.isModalLocation() ? this.previousLocation : this.props.location }>
-            <Route path={articlePath} component={AsyncArticle} />
-            <Route component={HomeContainer} />
+          <Switch location={ this.isModalLocation() ? prevLocOrHome : this.props.location }>
+            <Route path={articlePath} render={({match, history}) => 
+              <AsyncArticle
+                match={match}
+                history={history}
+                prevLocation={this.previousLocation} />
+            }/>
+            <Route path={homePath} component={HomeContainer} />
           </Switch>
           <Route path={videoPath} render={({match, history}) =>
             <VideoModal
               id={match.params.id}
-              history={history} />}
-              referrer={this.previousLocation} />
+              history={history}
+              prevLocation={prevLocOrHome} />} />
         </div>
       </div>
     );
   }
 }
 
-function App() {
-  return (
-    <Route component={Content} />
-  );
+class App extends Component {
+
+  componentWillMount() {
+    this.props.getPosts();
+  }
+
+  render() {
+    return (
+      <Route component={Content} />
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+     getPosts: () => dispatch(fetchSources(() => fetchHomePosts())) 
+    };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(App));

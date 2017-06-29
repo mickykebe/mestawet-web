@@ -2,54 +2,68 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchArticle } from 'article/actions';
 import Article from 'article/components/Article';
+import Iframe from 'app/components/Iframe';
 
 class AsyncArticle extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { article: null };
     this.redirectIfNecessary = this.redirectIfNecessary.bind(this);
+    this.onBackClick = this.onBackClick.bind(this);
   }
 
-  redirectIfNecessary(article) {
-    if(!article.textContent) {
-      window.open(article.url, '_self');
+  redirectIfNecessary(source, article) {
+    if(!article.textContent && !source.embedPages) {
+      const { prevLocation, history } = this.props;
+      if (prevLocation) {
+        window.open(article.url);
+        history.push(prevLocation.pathname);
+      }
+      else {
+        window.open(article.url, '_self');
+      }
     }
   }
-  componentDidMount() {
-    const { id, article, fetchArticle } = this.props;
+  componentWillMount() {
+    const { id, article, sources, fetchArticle } = this.props;
     if(!article) {
       fetchArticle(id);
     }
     else {
-      this.redirectIfNecessary(article);
-      this.setState({
-        article,
-      });
+      this.redirectIfNecessary(sources[article.source], article)
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if(prevProps.article === this.props.article) {
-      return;
+  componentWillUpdate(nextProps) {
+    const { article, sources } = nextProps;
+
+    if(article && article !== this.props.article) {
+      this.redirectIfNecessary(sources[article.source], article);
     }
-    const { article } = this.props;
-    if(article) {
-      this.redirectIfNecessary(article);
-      this.setState({
-        article,
-      });
-    }
+  }
+
+  onBackClick() {
+    const { prevLocation, history } = this.props;
+    history.push(prevLocation ? prevLocation.pathname : '/');
   }
 
   render() {
-    const {article} = this.state;
-    if (!article || !article.textContent) {
+    const { article, sources } = this.props;
+    if (!article) {
       return null;
     }
-    const source = this.props.sources[article.source];
+    const source = sources[article.source];
+    if(!article.textContent) {
+      if(source.embedPages){
+        return (<Iframe src={article.url} title={article.title} />);
+      }
+      else {
+        return null;
+      }
+    }
     const { thumbnailUrl: srcThumbnailUrl, title: srcTitle } = source;
-    return (<Article 
+    return (
+      <Article 
       thumbnailUrl={article.thumbnailUrl}
       title={article.title}
       url={article.url}
@@ -57,7 +71,9 @@ class AsyncArticle extends Component {
       date={article.date}
       srcTitle={srcTitle}
       srcThumbnailUrl={srcThumbnailUrl}
-     />);
+      onBackClick={this.onBackClick}
+     />
+     );
   }
 
 }

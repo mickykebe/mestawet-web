@@ -7,10 +7,10 @@ const telegramApiHost = 'api.telegram.org';
 const telegramApiPath = `/bot${botToken}`;
 
 function channelUserName(postType) {
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-        return '@mestawet';
-    }
-    return postType === 'article' ? '@mestawet_news' : '@mestawet_videos';
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    return '@mestawet';
+  }
+  return postType === 'article' ? '@mestawet_news' : '@mestawet_videos';
 }
 
 /*function htmlMessage(post) {
@@ -20,64 +20,64 @@ function channelUserName(postType) {
 }*/
 
 function htmlMessage(post) {
-    return `${post.source.title}
+  return `${post.source.title}
 <a href="${fetchClientPostUrl(post)}">${post.title}</a>`;
 }
 
 function telegramMessage(post) {
-    const message = {
-        chat_id: channelUserName(post.kind),
-        text: htmlMessage(post),
-        parse_mode: 'HTML',
-        disable_notification: true,
-    };
-    return JSON.stringify(message);
+  const message = {
+    chat_id: channelUserName(post.kind),
+    text: htmlMessage(post),
+    parse_mode: 'HTML',
+    disable_notification: true,
+  };
+  return JSON.stringify(message);
 }
 
 function send(post) {
-    return new Promise((resolve, reject) => {
-        const message = telegramMessage(post);
-        const req = https.request({
-            hostname: telegramApiHost,
-            path: `${telegramApiPath}/sendMessage`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(message),
-            },
-        }, (res) => {
-            let data = '';
-            res.on('error', (e) => {
-                reject(e);
-            });
-            res.on('data', (chunk) => {
-                data += chunk;
-            });
-            res.on('end', () => {
-                const jsonResponse = JSON.parse(data);
-                if (!jsonResponse.ok) {
-                    reject(new Error(jsonResponse.description));
-                } else {
-                    resolve();
-                }
-            });
-        });
+  return new Promise((resolve, reject) => {
+    const message = telegramMessage(post);
+    const req = https.request({
+      hostname: telegramApiHost,
+      path: `${telegramApiPath}/sendMessage`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(message),
+      },
+    }, (res) => {
+      let data = '';
+      res.on('error', (e) => {
+        reject(e);
+      });
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        const jsonResponse = JSON.parse(data);
+        if (!jsonResponse.ok) {
+          reject(new Error(jsonResponse.description));
+        } else {
+          resolve();
+        }
+      });
+    });
 
-        req.on('error', (e) => {
-            reject(e);
-        });
+    req.on('error', (e) => {
+      reject(e);
+    });
 
-        req.write(message);
-        req.end();
-    })
-    .catch(console.log);
+    req.write(message);
+    req.end();
+  })
+  .catch(console.log);
 }
 
 module.exports = posts =>
-    posts.reduce((seq, post) =>
-        seq.then(() => {
-            if (post) {
-                return send(post);
-            }
-        }),
-        Promise.resolve());
+  posts.reduce((seq, post) =>
+    seq.then(() => {
+      if (post) {
+        return send(post);
+      }
+    }),
+    Promise.resolve());

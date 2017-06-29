@@ -2,32 +2,38 @@
     {
         "crawlerId": "addisadmas",
         "title": "አዲስ አድማስ",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/addis_admas.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/addis_admas.png",
+        "embedPages": true
     },
     {
         "crawlerId": "ethiopianreporter",
         "title": "ሪፖርተር",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/reporter.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/reporter.png",
+        "embedPages": false
     },
     {
         "crawlerId": "fanabc",
         "title": "ፋና",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/fana.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/fana.png",
+        "embedPages": false
     },
     {
         "crawlerId": "satenaw",
         "title": "ሳተናው",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/satenaw_2.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/satenaw_2.png",
+        "embedPages": true
     },
     {
         "crawlerId": "zehabesha",
         "title": "ዘ-ሀበሻ",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/zehabesha.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/zehabesha.png",
+        "embedPages":true
     },
     {
         "crawlerId": "voa",
         "title": "ቪኦኤ",
-        "thumbnailUrl": "http://asdfffdsa.com/icon/voa.png"
+        "thumbnailUrl": "http://asdfffdsa.com/icon/voa.png",
+        "embedPages": true
     },
     {
         "crawlerId": "ethioTime",

@@ -8,6 +8,7 @@ import Grid from 'material-ui/Grid';
 import Avatar from 'material-ui/Avatar';
 import moment from 'moment';
 import Icon from 'material-ui/Icon';
+import classnames from 'classnames';
 
 const stylesheet = createStyleSheet('Article', theme => ({
   'parent': {
@@ -53,12 +54,19 @@ const stylesheet = createStyleSheet('Article', theme => ({
   '@media (min-width: 600px)': {
     'content': {
       position: 'absolute',
-      top: '350px',
+    },
+    'contentOffset': {
+      top: '300px',
+      left: '50%',
+      webkitTransform: 'translate(-50%, 0)',
+      transform: 'translate(-50%, 0)',
+      width: '100%'
     },
   },
   '@media (max-width: 600px)': {
     'thumbWrap': {
       minHeight: 'auto',
+      maxHeight: '300px',
     },
     'thumb': {
       position: 'static',
@@ -85,16 +93,18 @@ class Article extends Component {
     const classes = this.context.styleManager.render(stylesheet);
     const { title, thumbnailUrl, textContent, date, srcThumbnailUrl, srcTitle } = this.props;
 
+    const contentClass = thumbnailUrl ? classnames(classes.content, classes.contentOffset) : classes.content;
+
     return (
       <div>
         <Grid container justify='center' className={classes.parent}>
           <Grid item xs={12} className={classes.thumbWrap}>
             {
               thumbnailUrl &&
-              <img className={classes.thumb} src={thumbnailUrl} alt='' />
+              <img className={classes.thumb} src={thumbnailUrl} alt='' />  
             }
           </Grid>
-          <Grid item xs={12} sm={8} className={classes.content}>
+          <Grid item xs={12} sm={8} className={contentClass}>
             <Paper className={classes.contentPaper}>
               <div>
                 <Avatar className={classes.srcThumb} src={srcThumbnailUrl} alt={srcTitle} />
