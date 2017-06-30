@@ -9,6 +9,7 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'source',
     },
+    description: String,
 }, { id: false, discriminatorKey: 'kind' });
 
 PostSchema.virtual('date').get(function () {
@@ -22,7 +23,6 @@ const ArticleSchema = new Schema({
         type: String,
         required: [true, 'Url is required'],
     },
-    description: String,
     textContent: String,
 }, { discriminatorKey: 'kind', id: false, _id: false });
 ArticleSchema.index({ url: 1 }, { unique: true, sparse: true });

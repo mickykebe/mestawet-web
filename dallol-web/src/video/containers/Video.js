@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
-import Dialog from 'material-ui/Dialog';
 import Youtube from 'react-youtube';
 import { connect } from 'react-redux';
 import { fetchVideoIfNeeded } from 'video/actions';
@@ -12,11 +12,8 @@ const playerOpts = {
         }
     };
 
-const stylesheet = createStyleSheet('YoutubeModal', (theme) => {
+const stylesheet = createStyleSheet('Video', (theme) => {
     return {
-        dialogPaper: {
-            display: 'block',
-        },
         videoWrapper: {
             position: 'relative',
             paddingBottom: '56.25%',
@@ -38,9 +35,8 @@ class VideoModal extends Component {
     static contextTypes = {
         styleManager: customPropTypes.muiRequired,
     }
-    constructor(props) {
-        super(props);
-        this.closeModal = this.closeModal.bind(this);
+    static propTypes = {
+      id: PropTypes.string.isRequired,
     }
 
     componentDidMount() {
@@ -51,33 +47,26 @@ class VideoModal extends Component {
         this.props.fetchVideoIfNeeded(this.props.id);
     }
 
-    closeModal() {
-        const backLocation = this.props.prevLocation ? this.props.prevLocation.pathname : '/';
-        this.props.history.push(backLocation);
-    }
-
     render() {
+        const { id, videos } = this.props;
         const classes = this.context.styleManager.render(stylesheet);
-        const video = this.props.videos && this.props.videos.youtubeVideos
-            && this.props.videos.youtubeVideos[this.props.id];
-        
 
         return (
-            <Dialog
-                open={true}
-                onRequestClose={this.closeModal}
-                paperClassName={classes.dialogPaper}
-                >
-                    { video &&
-                        <div className={classes.videoWrapper}>
-                            <Youtube
-                                videoId={video.videoId}
-                                opts={playerOpts}
-                                className={classes.youtubeElem}
-                                />
-                        </div>   
-                    }
-            </Dialog>
+          <div className={classes.videoWrapper}>
+            {
+              videos &&
+              (
+                (
+                  videos.youtubeVideos && videos.youtubeVideos[id] &&
+                  <Youtube
+                    videoId={videos.youtubeVideos[id].videoId}
+                    opts={playerOpts}
+                    className={classes.youtubeElem}
+                    />
+                )
+              )
+            }
+          </div>
         );
     }
 }

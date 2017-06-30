@@ -9,9 +9,11 @@ import {
   matchPath
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { homePath, articlePath, videoPath } from 'app/routes';
+import { homePath, articlePath, videoPath, videoStandalonePath } from 'app/routes';
 import AsyncArticle from 'article/containers/AsyncArticle';
-import VideoModal from 'video/containers/VideoModal';
+import Modal from 'app/components/Modal';
+import Video from 'video/containers/Video';
+import VideoStandalone from 'video/containers/VideoStandalone';
 import { fetchSources, fetchHomePosts } from 'home/actions';
 import { withRouter } from 'react-router';
 
@@ -40,12 +42,12 @@ class Content extends Component {
   }
 
   isModalLocation() {
-    return matchPath(this.props.location.pathname, { path: videoPath }) !== null;
+    return matchPath(this.props.location.pathname, { path: videoPath, exact: true }) !== null;
   }
  
   render() {
     const classes = this.context.styleManager.render(stylesheet);
-    const prevLocOrHome = this.previousLocation || { pathname: '/' };
+    const prevLocOrHome = this.previousLocation || { pathname: homePath };
 
     return (
       <div>
@@ -58,13 +60,17 @@ class Content extends Component {
                 history={history}
                 prevLocation={this.previousLocation} />
             }/>
+            <Route exact path={videoStandalonePath} render={({match, history}) => {
+              return <VideoStandalone id={match.params.id} />}
+            } />
             <Route path={homePath} component={HomeContainer} />
           </Switch>
-          <Route path={videoPath} render={({match, history}) =>
-            <VideoModal
-              id={match.params.id}
+          <Route path={videoPath} exact render={({match, history}) =>
+            <Modal 
               history={history}
-              prevLocation={prevLocOrHome} />} />
+              prevLocation={prevLocOrHome}>
+                <Video id={match.params.id} />
+            </Modal>} />
         </div>
       </div>
     );

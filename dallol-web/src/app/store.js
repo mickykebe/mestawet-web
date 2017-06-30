@@ -1,21 +1,26 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { loadState, saveState } from 'app/localstorage';
 import throttle from 'lodash/throttle';
 
+let composeWithEnhancers = compose;
 const middlewares = [];
 middlewares.push(thunk);
 if(process.env.NODE_ENV === 'development'){
   middlewares.push(createLogger());
+  composeWithEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
+
 
 function configureStore(preloadedState) {
   return createStore(
     rootReducer,
     preloadedState,
-    applyMiddleware(...middlewares)
+    composeWithEnhancers(
+      applyMiddleware(...middlewares),
+    )
   );
 }
 
