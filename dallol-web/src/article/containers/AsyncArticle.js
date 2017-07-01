@@ -37,7 +37,10 @@ class AsyncArticle extends Component {
   componentWillUpdate(nextProps) {
     const { article, sources } = nextProps;
 
-    if(article && article !== this.props.article) {
+    if(!article) {
+      fetchArticle(this.props.id);
+    }
+    else if(article && article !== this.props.article) {
       this.redirectIfNecessary(sources[article.source], article);
     }
   }

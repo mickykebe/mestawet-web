@@ -12,7 +12,8 @@ import { connect } from 'react-redux';
 import { homePath, articlePath, videoPath, videoStandalonePath } from 'app/routes';
 import AsyncArticle from 'article/containers/AsyncArticle';
 import Modal from 'app/components/Modal';
-import Video from 'video/containers/Video';
+import AsyncVideo from 'video/containers/AsyncVideo';
+import Video from 'video/components/Video';
 import VideoStandalone from 'video/containers/VideoStandalone';
 import { fetchSources, fetchHomePosts } from 'home/actions';
 import { withRouter } from 'react-router';
@@ -61,15 +62,21 @@ class Content extends Component {
                 prevLocation={this.previousLocation} />
             }/>
             <Route exact path={videoStandalonePath} render={({match, history}) => {
-              return <VideoStandalone id={match.params.id} />}
-            } />
+              return (
+                <AsyncVideo id={match.params.id}>
+                  <VideoStandalone />
+                </AsyncVideo>
+              ); }
+            }/>
             <Route path={homePath} component={HomeContainer} />
           </Switch>
           <Route path={videoPath} exact render={({match, history}) =>
             <Modal 
               history={history}
               prevLocation={prevLocOrHome}>
-                <Video id={match.params.id} />
+                <AsyncVideo id={match.params.id}>
+                  <Video />
+                </AsyncVideo>
             </Modal>} />
         </div>
       </div>

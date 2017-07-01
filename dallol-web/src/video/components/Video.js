@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import Youtube from 'react-youtube';
-import { connect } from 'react-redux';
-import { fetchVideoIfNeeded } from 'video/actions';
 
 const playerOpts = {
         playerVars: {
@@ -36,51 +34,26 @@ class VideoModal extends Component {
         styleManager: customPropTypes.muiRequired,
     }
     static propTypes = {
-      id: PropTypes.string.isRequired,
-    }
-
-    componentDidMount() {
-        this.props.fetchVideoIfNeeded(this.props.id);
-    }
-
-    componentDidUpdate() {
-        this.props.fetchVideoIfNeeded(this.props.id);
+      video: PropTypes.object,
     }
 
     render() {
-        const { id, videos } = this.props;
+        const { video } = this.props;
         const classes = this.context.styleManager.render(stylesheet);
 
         return (
           <div className={classes.videoWrapper}>
-            {
-              videos &&
-              (
-                (
-                  videos.youtubeVideos && videos.youtubeVideos[id] &&
-                  <Youtube
-                    videoId={videos.youtubeVideos[id].videoId}
-                    opts={playerOpts}
-                    className={classes.youtubeElem}
-                    />
-                )
-              )
+            { 
+              video.kind === 'youtubeVideo' &&
+              <Youtube
+                videoId={video.videoId}
+                opts={playerOpts}
+                className={classes.youtubeElem}
+                />
             }
           </div>
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { videos } = state;
-
-  return { videos };
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchVideoIfNeeded: (id) => dispatch(fetchVideoIfNeeded(id)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(VideoModal);
+export default VideoModal;

@@ -27,19 +27,23 @@ const stylesheet = createStyleSheet('PageShell', {
     paddingTop: '0 !important',
   },
   'contentPaper': {
-    padding: '16px',
+    paddingTop: '16px',
+    paddingBottom: '16px',
     textAlign: 'center',
+  },
+  fullPaperPadding: {
+    padding: '16px',
   },
   '@media (min-width: 600px)': {
     'content': {
       position: 'absolute',
+      width: '100%'
     },
     'contentOffset': {
       top: '300px',
       left: '50%',
       webkitTransform: 'translate(-50%, 0)',
       transform: 'translate(-50%, 0)',
-      width: '100%'
     },
   },
   '@media (max-width: 600px)': {
@@ -54,8 +58,9 @@ const stylesheet = createStyleSheet('PageShell', {
 });
 
 function PageShell(props) {
-  const { classes, thumbUrl, children } = props;
+  const { classes, thumbUrl, sidePadding = true, children } = props;
   const contentClass = thumbUrl ? classnames(classes.content, classes.contentOffset) : classes.content;
+  const paperClass = sidePadding ? classnames(classes.contentPaper, classes.fullPaperPadding) : classes.contentPaper;
 
   return (
     <div>
@@ -66,8 +71,8 @@ function PageShell(props) {
             <img className={classes.thumb} src={thumbUrl} alt=''/>
           }
         </Grid>
-        <Grid item xs={12} sm={8} className={contentClass}>
-          <Paper className={classes.contentPaper}>
+        <Grid item xs={12} sm={9} className={contentClass}>
+          <Paper className={paperClass}>
             { children }
           </Paper>
         </Grid>
