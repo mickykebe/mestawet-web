@@ -8,7 +8,7 @@ const apiRoute = require('./routes');
 const PostsController = require('./controllers/posts-controller');
 const { metaSubstitute } = require('./utils');
 
-import { videoPath, articlePath } from './dallol-web/src/app/routes';
+import { videoPath, articlePath, videoStandalonePath } from './dallol-web/src/app/routes';
 
 mongoose.Promise = global.Promise;
 
@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'dallol-web', 'build')));
 app.use(favicon(path.join(__dirname, 'dallol-web/build/favicon', 'favicon.ico')));
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use('/api', apiRoute);
-app.get(videoPath, (req, res, next) => {
+app.get([videoPath, videoStandalonePath], (req, res, next) => {
     PostsController.getVideoMetas(req.params.id)
         .then((metas) => metaSubstitute(`${__dirname}/dallol-web/build/index.html`, metas))
         .then((htmlStr) => res.send(htmlStr))

@@ -15,19 +15,9 @@ import { ARTICLE_FETCH_RESULT_ACTIONS } from 'article/actions';
 
 
 const ui = (state = {
-  isFetching: false,
   fetchError: false,
 }, action) => {
   switch(action.type) {
-    case HOME_POSTS_FETCH_RESULT_ACTIONS.PENDING:
-    case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.PENDING:
-    case SOURCES_FETCH_RESULT_ACTIONS.PENDING:
-    case VIDEO_FETCH_RESULT_ACTIONS.PENDING:
-    case ARTICLE_FETCH_RESULT_ACTIONS.PENDING: {
-      return Object.assign({}, state, {
-        isFetching: true,
-      });
-    }
     case HOME_POSTS_FETCH_RESULT_ACTIONS.ERROR:
     case HOME_POSTS_FETCH_NEXT_RESULT_ACTIONS.ERROR:
     case SOURCES_FETCH_RESULT_ACTIONS.ERROR:
@@ -35,7 +25,6 @@ const ui = (state = {
     case ARTICLE_FETCH_RESULT_ACTIONS.ERROR: {
       return Object.assign({}, state, { 
         fetchError: true,
-        isFetching: false,
       });
     }
     case HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS:
@@ -44,7 +33,6 @@ const ui = (state = {
     case VIDEO_FETCH_RESULT_ACTIONS.SUCCESS:
     case ARTICLE_FETCH_RESULT_ACTIONS.SUCCESS: {
       return Object.assign({}, state, {
-        isFetching: false,
         fetchError: false,
       });
     }
