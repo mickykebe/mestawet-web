@@ -24,7 +24,7 @@ function slug(text) {
 
 function videoUrl(post) {
   if (post.videoId) {
-    return `${baseClientUrl}/video/${post._id}`;
+    return `${baseClientUrl}/video/standalone/${post._id}`;
   }
   return null;
 }

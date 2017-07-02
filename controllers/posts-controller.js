@@ -54,6 +54,7 @@ function saveVideo(crawledYoutubeVideo) {
           const video = new YoutubeVideo({
             videoId: crawledYoutubeVideo.videoId,
             title: crawledYoutubeVideo.title,
+            description: crawledYoutubeVideo.description,
             thumbnailUrl: crawledYoutubeVideo.thumbnailUrl,
           });
 

@@ -6,9 +6,6 @@ export const resultActions = (type) => ({
 
 export const fetchApi = ({url, resultActions, normalizer, nextActions = []}) => {
   return (dispatch, getState) => {
-    if(getState().ui.isFetching){
-      return;
-    }
     dispatch({ type: resultActions.PENDING });
     return fetch(url)
       .then(response => response.json())
