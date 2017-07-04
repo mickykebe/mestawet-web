@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server-watch\" \"npm run client\"",
-    "server-watch": "NODE_ENV=development NODE_PATH=dallol-web/src nodemon index.js",
-    "server": "NODE_ENV=development NODE_PATH=dallol-web/src node index.js",
+    "server-watch": "NODE_ENV=development NODE_PATH=dallol-web/src nodemon index.js --exec babel-node",
+    "server": "NODE_ENV=development NODE_PATH=dallol-web/src babel-node index.js",
     "client": "cd dallol-web && npm start",
-    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
+    "test": "NODE_ENV=test nodemon --exec 'mocha --compilers js:babel-register --recursive -R min'"
   },
   "author": "",
   "license": "ISC",
@@ -27,13 +27,16 @@
     "react-router": "^4.1.1",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
-    "serve-favicon": "^2.4.3"
+    "serve-favicon": "^2.4.3",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.0.0",
+    "babel-preset-stage-2": "^6.24.1",
     "concurrently": "^3.4.0",
     "supertest": "^3.0.0"
   }

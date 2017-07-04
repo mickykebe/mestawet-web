@@ -88,6 +88,24 @@ function getArticle(postId) {
         });
 }
 
+function getPosts({ limit = 30, offset = 0, populate = '' } = {}) {
+  return Post.find({},
+    {
+      title: 1,
+      url: 1,
+      videoId: 1,
+      thumbnailUrl: 1,
+      description: 1,
+      source: 1,
+      date: 1,
+      textContent: 1,
+    })
+    .sort({ _id: -1 })
+    .skip(offset)
+    .limit(limit)
+    .populate(populate);
+}
+
 module.exports = {
   create(req, res, next) {
     const posts = req.body;
@@ -102,32 +120,7 @@ module.exports = {
             })
             .catch(next);
   },
-  getPosts(req, res, next) {
-    const postsPerPage = 30;
-    const offset = Number(req.query.offset) || 0;
-
-    Post.find({},
-      {
-        title: 1,
-        url: 1,
-        videoId: 1,
-        thumbnailUrl: 1,
-        description: 1,
-        source: 1,
-        date: 1,
-        textContent: 1,
-      })
-            .sort({ _id: -1 })
-            .skip(offset)
-            .limit(postsPerPage)
-            .then((posts) => {
-              const nextOffset = (posts.length < postsPerPage) ?
-                    offset + posts.length :
-                    offset + postsPerPage;
-              res.send({ posts, nextOffset });
-            })
-            .catch(next);
-  },
+  getPosts,
   getVideo,
   getArticle,
   getArticleMetas(postId) {

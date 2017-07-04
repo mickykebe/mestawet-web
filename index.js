@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const sources = require('./sources');
-
-require('babel-register');
 const app = require('./app');
 
 mongoose.Promise = global.Promise;
