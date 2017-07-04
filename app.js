@@ -14,9 +14,16 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'dallol-web', 'build')));
+function genericPathHandler(req, res, next) {
+  metaSubstitute(`${__dirname}/dallol-web/build/index.html`, genericMetas())
+    .then(htmlStr => res.send(htmlStr))
+    .catch(next);
+}
+
 app.use(favicon(path.join(__dirname, 'dallol-web/build/favicon', 'favicon.ico')));
 app.use(bodyParser.json({ limit: '1mb' }));
+app.get('/', genericPathHandler);
+app.use(express.static(path.join(__dirname, 'dallol-web', 'build')));
 app.use('/api', apiRoute);
 app.get([videoPath, videoStandalonePath], (req, res, next) => {
   PostsController.getVideoMetas(req.params.id)
@@ -30,10 +37,7 @@ app.get(articlePath, (req, res, next) => {
     .then(htmlStr => res.send(htmlStr))
     .catch(next);
 });
-app.get('*', (req, res) => {
-  const htmlStr = metaSubstitute(`${__dirname}/dallol-web/build/index.html`, genericMetas());
-  res.sendFile(htmlStr);
-});
+app.get('*', genericPathHandler);
 app.use((err, req, res) => {
   res.status(422).send({ error: err.message });
 });
