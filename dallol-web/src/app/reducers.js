@@ -9,7 +9,7 @@ import {
   SCHEMA_NAME_YOUTUBEVIDEOS,
   SCHEMA_NAME_ARTICLES,
   SCHEMA_NAME_SOURCES
-} from 'app/normalizerSchemas';
+} from 'app/normalizers';
 import { VIDEO_FETCH_RESULT_ACTIONS } from 'video/actions';
 import { ARTICLE_FETCH_RESULT_ACTIONS } from 'article/actions';
 

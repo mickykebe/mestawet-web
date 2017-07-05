@@ -1,4 +1,7 @@
 export const loadState = () => {
+  if(typeof window === 'undefined') {
+    return;
+  }
   try {
     const serializedState = localStorage.getItem('state');
     if(serializedState === null){
@@ -13,6 +16,9 @@ export const loadState = () => {
 }
 
 export const saveState = (state) => {
+  if(typeof window === 'undefined') {
+    return;
+  }
   try{
     localStorage.setItem('state', JSON.stringify(state));
   }

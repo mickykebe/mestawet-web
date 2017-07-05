@@ -17,6 +17,7 @@ import Video from 'video/components/Video';
 import VideoStandalone from 'video/containers/VideoStandalone';
 import { fetchSources, fetchHomePosts } from 'home/actions';
 import { withRouter } from 'react-router';
+import GlobalSnackbar from 'app/components/GlobalSnackbar';
 
 const stylesheet = createStyleSheet('Content', theme => ({
   'content': {
@@ -85,16 +86,26 @@ class Content extends Component {
 }
 
 class App extends Component {
-
   componentWillMount() {
     this.props.getPosts();
   }
 
   render() {
     return (
-      <Route component={Content} />
+      <div>
+        <Route component={Content} />
+        <GlobalSnackbar
+          show={this.props.fetchError}
+          message='Problem occurred fetching posts' />
+      </div>
     );
   }
+}
+
+const mapStateToProps = (state) => {
+  const { fetchError } = state.ui;
+
+  return { fetchError };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -103,4 +114,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

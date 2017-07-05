@@ -8,13 +8,13 @@ import throttle from 'lodash/throttle';
 let composeWithEnhancers = compose;
 const middlewares = [];
 middlewares.push(thunk);
-if(process.env.NODE_ENV === 'development'){
+if(process.env.NODE_ENV === 'development' && typeof window !== 'undefined'){
   middlewares.push(createLogger());
   composeWithEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 
 
-function configureStore(preloadedState) {
+export function configureStore(preloadedState) {
   return createStore(
     rootReducer,
     preloadedState,

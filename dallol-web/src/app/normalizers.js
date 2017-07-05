@@ -1,4 +1,4 @@
-import { schema } from 'normalizr';
+import { schema, normalize } from 'normalizr';
 
 export const SCHEMA_NAME_YOUTUBEVIDEOS = 'youtubeVideos';
 export const SCHEMA_NAME_ARTICLES = 'articles';
@@ -21,8 +21,20 @@ export const postsSchema = new schema.Array({
   articles: articleSchema,
 }, (input, parent, key) => `${input.kind}s`);
 
-export default {
+export const schemas = {
   [SCHEMA_NAME_ARTICLES]: articleSchema,
   [SCHEMA_NAME_YOUTUBEVIDEOS]: youtubeVideoSchema,
   [SCHEMA_NAME_SOURCES]: sourcesSchema,
-};
+}
+
+export const homeNormalizer = (data) => 
+  Object.assign({}, data, { posts: normalize(data.posts, postsSchema) });
+
+export const sourcesNormalizer = (data) => 
+  normalize(data, new schema.Array(sourcesSchema));
+
+export const articleNormalizer = (data) => normalize(data, schemas[`${data.kind}s`]);
+
+export const videoNormalizer = (data) => normalize(data, schemas[`${data.kind}s`]);
+
+export default schemas;

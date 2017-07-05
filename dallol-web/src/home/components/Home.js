@@ -6,10 +6,6 @@ import VideoCard from 'home/components/VideoCard';
 import Masonry from 'react-masonry-component';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from 'material-ui/Progress';
-import Alert from 'react-s-alert';
-
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
 const styleSheet = createStyleSheet('Home', theme => ({
   '@global': {
@@ -69,16 +65,6 @@ class Home extends Component {
     this.wrapGridItem = this.wrapGridItem.bind(this);
   }
 
-  componentDidUpdate() {
-    if(this.props.fetchError){
-      Alert.error('Problem occurred fetching from server. Please try again later.', {
-        position: 'bottom',
-        effect: 'scale',
-        timeout: 'none'
-      });
-    }
-  }
-
   wrapGridItem(card, key) {
     const classes = this.context.styleManager.getClasses(styleSheet);
     return (
@@ -109,23 +95,20 @@ class Home extends Component {
     }
 
     return (
-      <div>
-        <InfiniteScroll
-            pageStart={0}
-            hasMore={this.props.hasMore}
-            loadMore={this.props.loadMore}
-            loader={
-              <div className={classes.spinnerContainer}>
-                <CircularProgress className={classes.loadingSpinner} size={50} />
-              </div>}>
-          <Masonry
-            options={masonryOptions}
-            updateOnEachImageLoad={true}>
-            {this.props.posts.map(this.renderPost)}
-          </Masonry>
-        </InfiniteScroll>
-        <Alert stack={{limit: 3}} />
-      </div>
+      <InfiniteScroll
+          pageStart={0}
+          hasMore={this.props.hasMore}
+          loadMore={this.props.loadMore}
+          loader={
+            <div className={classes.spinnerContainer}>
+              <CircularProgress className={classes.loadingSpinner} size={50} />
+            </div>}>
+        <Masonry
+          options={masonryOptions}
+          updateOnEachImageLoad={true}>
+          {this.props.posts.map(this.renderPost)}
+        </Masonry>
+      </InfiniteScroll>
     );
   }
 }

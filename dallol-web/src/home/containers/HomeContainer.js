@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
     sources,
     posts,
     hasMore,
-    fetchError: state.ui.fetchError,
   }
 }
 

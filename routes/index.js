@@ -33,7 +33,11 @@ router.get('/videos/:id', (req, res, next) => {
     })
     .catch(next);
 });
-router.get('/sources', SourcesController.get);
+router.get('/sources', (req, res, next) => {
+  SourcesController.get()
+    .then(sources => res.send(sources))
+    .catch(next);
+});
 router.get('/feed', (req, res, next) => {
   PostsController.getPosts({ populate: 'source' })
     .then((posts) => {

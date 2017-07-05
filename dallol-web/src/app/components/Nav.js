@@ -4,7 +4,6 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import { createStyleSheet } from 'jss-theme-reactor';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import logo from '../img/mestawet-logo.png';
 import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import { homePath } from 'app/routes';
@@ -61,7 +60,7 @@ class Nav extends Component {
                     </IconButton>
                   }
                   <Link className={classes.logoWrap} to="/">
-                      <img className={classes.logo} src={logo} alt="Mestawet logo" />
+                      <img className={classes.logo} src={process.env.PUBLIC_URL + '/img/logo.png'} alt="Mestawet logo" />
                   </Link>
                 </Toolbar>
             </AppBar>
