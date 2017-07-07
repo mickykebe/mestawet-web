@@ -2,17 +2,10 @@ const fs = require('fs');
 const he = require('he');
 const config = require('./config');
 const xml = require('xml');
+const glob = require('glob');
+const path = require('path');
 
 const baseClientUrl = `https://${config.clientHostName}`;
-const htmlPlaceholders = {
-  ogTitle: '__OG_TITLE__',
-  ogType: '__OG_TYPE__',
-  ogUrl: '__OG_URL__',
-  ogImage: '__OG_IMAGE__',
-  ogDescription: '__OG_DESCRIPTION__',
-  ogImageWidth: '__OG_IMAGE_WIDTH__',
-  ogImageHeight: '__OG_IMAGE_HEIGHT__',
-};
 
 // https://gist.github.com/mathewbyrne/1280286
 function slug(text) {
@@ -47,41 +40,50 @@ function fetchClientPostUrl(post) {
   return decodeURI(url);
 }
 
-function metaReplace(htmlStr, metas) {
-  let newHtml = htmlStr;
-  for(const placeholder in htmlPlaceholders) {
-    newHtml = newHtml.replace(htmlPlaceholders[placeholder], metas[htmlPlaceholders[placeholder]] || '');
-  }
-  return newHtml;
+function buildOGMetas({
+  ogTitle = 'Mestawet - Ethiopian news and videos',
+  ogType = 'website',
+  ogUrl = 'https://mestawet.com/',
+  ogImage = 'https://mestawet.com/img/logo.png',
+  ogDescription = 'The latest Ethiopian news and videos as they break',
+  ogImageWidth = '480',
+  ogImageHeight = '360',
+} = {}) {
+  return `<meta property="og:title" content="${ogTitle}">
+  <meta property="og:type" content="${ogType}">
+  <meta property="og:url" content="${ogUrl}">
+  <meta property="og:description" content="${ogDescription}">
+  <meta property="og:image" content="${ogImage}">
+  <meta property="og:image:width" content="${ogImageWidth}" />
+  <meta property="og:image:height" content="${ogImageHeight}" />`;
 }
 
-function metaSubstitute(htmlPath, metas) {
-  return new Promise((resolve, reject) => {
-    const readable = fs.createReadStream(htmlPath);
-    let htmlStr = '';
+function getFileNameFromPath(file) {
+  return file && file.replace(/^.*[\\/]/, '');
+}
 
-    readable.on('data', (data) => {
-      htmlStr += data;
-    });
-    readable.on('end', () => {
-      resolve(metaReplace(htmlStr, metas));
-    });
-    readable.on('error', (e) => {
-      reject(e);
+function getBuiltJsFileName() {
+  return new Promise((resolve, reject) => {
+    glob('./dallol-web/build/static/js/*.js', (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(getFileNameFromPath(files[0]));
+      }
     });
   });
 }
 
-function genericMetas() {
-  return {
-    [htmlPlaceholders.ogType]: 'website',
-    [htmlPlaceholders.ogTitle]: 'Mestawet - Ethiopian news and videos',
-    [htmlPlaceholders.ogUrl]: 'https://mestawet.com/',
-    [htmlPlaceholders.ogImage]: 'https://mestawet.com/img/logo.png',
-    [htmlPlaceholders.ogDescription]: 'Get the latest Ethiopian news and videos as they break',
-    [htmlPlaceholders.ogImageWidth]: 480,
-    [htmlPlaceholders.ogImageHeight]: 360,
-  };
+function getBuiltCssFileName() {
+  return new Promise((resolve, reject) => {
+    glob('./dallol-web/build/static/css/*.css', (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(getFileNameFromPath(files[0]));
+      }
+    });
+  });
 }
 
 function fbRss(posts) {
@@ -152,7 +154,7 @@ function fbRss(posts) {
 
 module.exports.fetchClientPostUrl = fetchClientPostUrl;
 module.exports.trimText = (text = '') => text.slice(0, 250).concat('...');
-module.exports.metaSubstitute = metaSubstitute;
-module.exports.htmlPlaceholders = htmlPlaceholders;
-module.exports.genericMetas = genericMetas;
 module.exports.fbRss = fbRss;
+module.exports.buildOGMetas = buildOGMetas;
+module.exports.getBuiltJsFileName = getBuiltJsFileName;
+module.exports.getBuiltCssFileName = getBuiltCssFileName;

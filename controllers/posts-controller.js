@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const he = require('he');
 const sendPostsToTelegram = require('../post-processors/telegram');
 const sendPostsToFacebook = require('../post-processors/facebook');
-const { trimText, fetchClientPostUrl, htmlPlaceholders } = require('../utils');
+const { trimText } = require('../utils');
 
 const Post = mongoose.model('post');
 const Article = mongoose.model('article');
@@ -123,27 +123,4 @@ module.exports = {
   getPosts,
   getVideo,
   getArticle,
-  getArticleMetas(postId) {
-    return getArticle(postId)
-            .then(post => ({
-              [htmlPlaceholders.ogType]: 'article',
-              [htmlPlaceholders.ogTitle]: he.encode(post.title),
-              [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
-              [htmlPlaceholders.ogImage]: encodeURI(post.thumbnailUrl),
-              [htmlPlaceholders.ogDescription]: he.encode(post.description),
-              [htmlPlaceholders.ogImageWidth]: 480,
-              [htmlPlaceholders.ogImageHeight]: 360,
-            }));
-  },
-  getVideoMetas(postId) {
-    return getVideo(postId)
-            .then(post => ({
-              [htmlPlaceholders.ogType]: 'video.other',
-              [htmlPlaceholders.ogTitle]: he.encode(post.title),
-              [htmlPlaceholders.ogUrl]: fetchClientPostUrl(post),
-              [htmlPlaceholders.ogImage]: encodeURI(post.thumbnailUrl),
-              [htmlPlaceholders.ogImageWidth]: 480,
-              [htmlPlaceholders.ogImageHeight]: 360,
-            }));
-  },
 };

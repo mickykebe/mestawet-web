@@ -6,6 +6,7 @@
   "scripts": {
     "start": "concurrently \"npm run server-watch\" \"npm run client\"",
     "server-watch": "NODE_ENV=development NODE_PATH=dallol-web/src nodemon index.js --exec babel-node",
+    "server-watch-prod": "NODE_ENV=production NODE_PATH=dallol-web/src nodemon index.js --exec babel-node",
     "server": "NODE_ENV=development NODE_PATH=dallol-web/src babel-node index.js",
     "client": "cd dallol-web && npm start",
     "test": "NODE_ENV=test nodemon --exec 'mocha --compilers js:babel-register --recursive -R min'"
@@ -17,10 +18,11 @@
     "body-parser": "^1.17.1",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "glob": "^7.1.2",
     "he": "^1.1.1",
     "jsonwebtoken": "^7.3.0",
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-alpha.17",
+    "material-ui": "1.0.0-alpha.17",
     "mocha": "^3.2.0",
     "moment": "^2.18.1",
     "mongoose": "^4.9.4",

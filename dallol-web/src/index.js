@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from 'app/App';
@@ -17,11 +17,24 @@ const palette = createPalette({
 
 const theme = createMuiTheme({ palette });
 
+class Main extends Component {
+  componentDidMount() {
+    const jssStyles = document.getElementById('jss-server-side');
+    if(jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
+  render() {
+    return <App {...this.props} />
+  }
+}
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <Router>
-        <App />
+        <Main />
       </Router>
     </Provider>
   </MuiThemeProvider>,
