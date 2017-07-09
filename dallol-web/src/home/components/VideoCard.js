@@ -32,7 +32,7 @@ const stylesheet = createStyleSheet('YoutubeCard', (theme) => {
     };
 })
 
-class YoutubeCard extends React.Component {
+class VideoCard extends React.Component {
     static contextTypes = {
         styleManager: customPropTypes.muiRequired,
     }
@@ -73,4 +73,4 @@ class YoutubeCard extends React.Component {
     }
 }
 
-export default YoutubeCard;
+export default VideoCard;

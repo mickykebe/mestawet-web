@@ -41,6 +41,7 @@ class Article extends Component {
   }
 
   static propTypes = {
+    id: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     thumbnailUrl: PropTypes.string,

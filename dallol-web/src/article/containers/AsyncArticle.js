@@ -67,6 +67,7 @@ class AsyncArticle extends Component {
     const { thumbnailUrl: srcThumbnailUrl, title: srcTitle } = source;
     return (
       <Article 
+      id={article._id}
       thumbnailUrl={article.thumbnailUrl}
       title={article.title}
       url={article.url}

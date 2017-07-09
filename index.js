@@ -1,3 +1,4 @@
+const componentOptimizationRef = require('./ssr-cache');
 const mongoose = require('mongoose');
 const sources = require('./sources');
 const app = require('./app');

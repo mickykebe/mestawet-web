@@ -30,6 +30,7 @@
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
+    "react-ssr-optimization": "0.0.7",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.1",
     "request": "^2.81.0",
@@ -40,10 +41,13 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-react-constant-elements": "^6.23.0",
+    "babel-plugin-transform-react-inline-elements": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.0.0",
     "babel-preset-stage-2": "^6.24.1",
+    "benchmark": "^2.1.4",
     "concurrently": "^3.4.0",
     "supertest": "^3.0.0"
   }
