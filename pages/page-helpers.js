@@ -8,6 +8,7 @@ import { renderToString } from 'react-dom/server';
 import App from '../dallol-web/src/app/App';
 
 const { getBuiltCssFileName, getBuiltJsFileName } = require('../utils');
+const cssCache = {};
 
 function renderFullPage(metas, html, css) {
   return Promise.all([getBuiltJsFileName(), getBuiltCssFileName()])
@@ -53,7 +54,7 @@ function renderFullPage(metas, html, css) {
       `);
 }
 
-function pageHtml(metas, location, store) {
+function pageHtml(metas, location, store, matchedPath) {
   function createStyleManager() {
     return MuiThemeProvider.createDefaultContext({
       theme: createMuiTheme({
@@ -76,7 +77,11 @@ function pageHtml(metas, location, store) {
     </MuiThemeProvider>
   );
 
-  const css = styleManager.sheetsToString();
+  if (!Object.prototype.hasOwnProperty.call(cssCache, matchedPath)) {
+    cssCache[matchedPath] = styleManager.sheetsToString();
+  }
+
+  const css = cssCache[matchedPath];
   return renderFullPage(metas, html, css);
 }
 

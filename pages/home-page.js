@@ -7,7 +7,7 @@ const SourcesController = require('../controllers/sources-controller');
 const { buildOGMetas } = require('../utils');
 const pageHtml = require('./page-helpers');
 
-module.exports = (url) => {
+module.exports = (url, matchedPath) => {
   const store = configureStore();
   return SourcesController.get()
     .then((sourceDocs) => {
@@ -24,7 +24,7 @@ module.exports = (url) => {
         type: HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS,
         data: homeNormalizer({ posts, nextOffset: 30 }),
       });
-      const html = pageHtml(buildOGMetas(), url, store);
+      const html = pageHtml(buildOGMetas(), url, store, matchedPath);
       return html;
     });
 };

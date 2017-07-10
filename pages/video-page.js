@@ -9,7 +9,7 @@ const SourcesController = require('../controllers/sources-controller');
 const { buildOGMetas, fetchClientPostUrl } = require('../utils');
 const pageHtml = require('./page-helpers');
 
-function videoPage(videoId, url) {
+function videoPage(videoId, url, matchedPath) {
   const store = configureStore();
   return SourcesController.get()
     .then((sourceDocs) => {
@@ -29,7 +29,7 @@ function videoPage(videoId, url) {
         ogUrl: fetchClientPostUrl(post),
         ogDescription: he.encode(post.description),
         ogImage: encodeURI(post.thumbnailUrl) });
-      const html = pageHtml(metas, url, store);
+      const html = pageHtml(metas, url, store, matchedPath);
       return html;
     });
 }

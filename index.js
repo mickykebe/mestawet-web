@@ -15,7 +15,7 @@ function populateSources() {
 
 function startServer() {
   app.listen(3050, () => {
-    console.log('Dallol server listening on 3050');
+    console.log('Mestawet server listening on 3050');
   });
 }
 

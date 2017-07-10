@@ -1,4 +1,4 @@
-import { videoPath, articlePath, videoStandalonePath } from './dallol-web/src/app/routes';
+import { homePath, videoPath, articlePath, videoStandalonePath } from './dallol-web/src/app/routes';
 
 const mongoose = require('mongoose');
 const express = require('express');
@@ -23,19 +23,22 @@ function renderWithFallback(pagePromise, req, res, next) {
 }
 
 function genericPathHandler(req, res, next) {
-  renderWithFallback(homePage(req.url), req, res, next);
+  renderWithFallback(homePage(req.url, homePath), req, res, next);
 }
 
 app.use(favicon(path.join(__dirname, 'dallol-web/build/favicon', 'favicon.ico')));
 app.use(bodyParser.json({ limit: '1mb' }));
-app.get('/', genericPathHandler);
+app.get(homePath, genericPathHandler);
 app.use(express.static(path.join(__dirname, 'dallol-web', 'build')));
 app.use('/api', apiRoute);
-app.get([videoPath, videoStandalonePath], (req, res, next) => {
-  renderWithFallback(videoPage(req.params.id, req.url), req, res, next);
-});
 app.get(articlePath, (req, res, next) => {
-  renderWithFallback(articlePage(req.params.id, req.url), req, res, next);
+  renderWithFallback(articlePage(req.params.id, req.url, articlePath), req, res, next);
+});
+app.get(videoStandalonePath, (req, res, next) => {
+  renderWithFallback(videoPage(req.params.id, req.url, videoStandalonePath), req, res, next);
+});
+app.get(videoPath, (req, res, next) => {
+  renderWithFallback(videoPage(req.params.id, req.url, videoPath), req, res, next);
 });
 app.get('*', genericPathHandler);
 app.use((err, req, res) => {
