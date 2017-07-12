@@ -9,7 +9,7 @@ const SourcesController = require('../controllers/sources-controller');
 const { buildOGMetas, fetchClientPostUrl } = require('../utils');
 const pageHtml = require('./page-helpers');
 
-function articlePage(articleId, url, matchedPath) {
+function articlePage(articleId, url) {
   const store = configureStore();
   return SourcesController.get()
     .then((sourceDocs) => {
@@ -30,7 +30,7 @@ function articlePage(articleId, url, matchedPath) {
         ogDescription: he.encode(post.description),
         ogImage: encodeURI(post.thumbnailUrl),
       });
-      const html = pageHtml(metas, url, store, matchedPath);
+      const html = pageHtml(metas, url, store);
       return html;
     });
 }

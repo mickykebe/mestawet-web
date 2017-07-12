@@ -41,20 +41,22 @@ class VideoStandalone extends Component {
 
     return (
       <PageShell sidePadding={false}>
-        <div>
-          <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
-          <Video video={video} />
-          <Typography className={classes.title} type='headline' component='h3'>
-            { title }
-          </Typography>
-          <Typography className={classes.date} type='caption'>
-            <Icon className={classes.dateIcon}>access_time</Icon>
-            {moment(date).fromNow()}
-          </Typography>
+        <article>
+          <header>
+            <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
+            <Video video={video} />
+            <Typography className={classes.title} type='headline' component='h3'>
+              { title }
+            </Typography>
+            <Typography className={classes.date} type='caption'>
+              <Icon className={classes.dateIcon}>access_time</Icon>
+              {moment(date).fromNow()}
+            </Typography>
+          </header>
           <Typography type='body1' component='p' className={classes.description}>
             { description }
           </Typography>
-        </div>
+        </article>
       </PageShell>
     );
   }
