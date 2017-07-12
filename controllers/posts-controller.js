@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const he = require('he');
 const sendPostsToTelegram = require('../post-processors/telegram');
 const sendPostsToFacebook = require('../post-processors/facebook');
 const { trimText } = require('../utils');

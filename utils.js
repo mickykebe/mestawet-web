@@ -1,9 +1,6 @@
-const fs = require('fs');
 const he = require('he');
 const config = require('./config');
-const xml = require('xml');
 const glob = require('glob');
-const path = require('path');
 
 const baseClientUrl = `https://${config.clientHostName}`;
 
@@ -16,28 +13,32 @@ function slug(text) {
       .replace(/-+$/, '');            // Trim - from end of text
 }
 
-function videoUrl(post) {
+function videoUrlPath(post) {
   if (post.videoId) {
-    return `${baseClientUrl}/video/standalone/${post._id}`;
+    return `/video/standalone/${post._id}`;
   }
   return null;
 }
 
-function articleUrl(post) {
+function articleUrlPath(post) {
   if (post.url) {
-    return `${baseClientUrl}/article/${post._id}/${he.escape(slug(post.title))}`;
+    return `/article/${post._id}/${he.escape(slug(post.title))}`;
   }
   return null;
+}
+
+function postUrlPath(post) {
+  let path;
+  if (post.kind === 'article') {
+    path = articleUrlPath(post);
+  } else {
+    path = videoUrlPath(post);
+  }
+  return decodeURIComponent(path);
 }
 
 function fetchClientPostUrl(post) {
-  let url;
-  if (post.kind === 'youtubeVideo') {
-    url = videoUrl(post);
-  } else if (post.kind === 'article') {
-    url = articleUrl(post);
-  }
-  return decodeURI(url);
+  return `${baseClientUrl}${postUrlPath(post)}`;
 }
 
 function buildOGMetas({
@@ -86,75 +87,9 @@ function getBuiltCssFileName() {
   });
 }
 
-function fbRss(posts) {
-  const getItemXmlObj = post => ({
-    item: [
-      {
-        title: [post.title],
-      },
-      {
-        description: [post.description],
-      },
-      {
-        guid: [post._id.toString()],
-      },
-      {
-        link: [fetchClientPostUrl(post)],
-      },
-      {
-        'content:encoded': {
-          _cdata: post.textContent || post.description,
-        },
-      },
-      {
-        pubDate: [post.date.toString()],
-      },
-      {
-        author: [post.source.title],
-      },
-    ],
-  });
-  const channel = {
-    channel: [
-      {
-        title: [
-          'Mestawet - Ethiopian news and video',
-        ],
-      },
-      {
-        description: [
-          'Mestawet aggregates breaking Ethiopian news and videos',
-        ],
-      },
-      {
-        link: [
-          'https://mestawet.com',
-        ],
-      },
-    ],
-  };
-  const rss = {
-    rss: [
-      {
-        _attr: {
-          'xmlns:dc': 'http://purl.org/dc/elements/1.1/',
-          'xmlns:content': 'http://purl.org/rss/1.0/modules/content/',
-          'xmlns:atom': 'http://www.w3.org/2005/Atom',
-          version: '2.0',
-        },
-      },
-    ],
-  };
-  posts.forEach((post) => {
-    channel.channel.push(getItemXmlObj(post));
-  });
-  rss.rss.push(channel);
-  return xml(rss, { declaration: true, indent: '\t' });
-}
-
 module.exports.fetchClientPostUrl = fetchClientPostUrl;
+module.exports.postUrlPath = postUrlPath;
 module.exports.trimText = (text = '') => text.slice(0, 250).concat('...');
-module.exports.fbRss = fbRss;
 module.exports.buildOGMetas = buildOGMetas;
 module.exports.getBuiltJsFileName = getBuiltJsFileName;
 module.exports.getBuiltCssFileName = getBuiltCssFileName;

@@ -57,22 +57,24 @@ class Article extends Component {
 
     return (
       <PageShell thumbUrl={thumbnailUrl}>
-        <div>
-          <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
-          <Typography type='headline' component='h3'>
-            { title }
-          </Typography>
-          <Typography className={classes.date} type='caption'>
-            <Icon className={classes.dateIcon}>access_time</Icon>
-            {moment(date).fromNow()}
-          </Typography>
-          <div>
-            <IconButton aria-label="open external" onClick={this.openExternally}>
-              <Icon>open_in_new</Icon>
-            </IconButton>
-          </div>
+        <article>
+          <header>
+            <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
+            <Typography type='headline' component='h3'>
+              { title }
+            </Typography>
+            <Typography className={classes.date} type='caption'>
+              <Icon className={classes.dateIcon}>access_time</Icon>
+              {moment(date).fromNow()}
+            </Typography>
+            <div>
+              <IconButton aria-label="open external" onClick={this.openExternally}>
+                <Icon>open_in_new</Icon>
+              </IconButton>
+            </div>
+          </header>
           <Typography type='body1' component='p' className={classes.textContent} dangerouslySetInnerHTML={{ __html: textContent }} />
-        </div>
+        </article>
       </PageShell>
     );
   }

@@ -1,3 +1,5 @@
 /dallol-web/node_modules
 /node_modules
 config.json
+rss.txt
+ssr.html
