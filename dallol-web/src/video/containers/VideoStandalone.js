@@ -40,24 +40,24 @@ class VideoStandalone extends Component {
     const { title, date, description } = video;
 
     return (
-      <PageShell sidePadding={false}>
-        <article>
+      <article>
+        <PageShell sidePadding={false}>
           <header>
             <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
             <Video video={video} />
-            <Typography className={classes.title} type='headline' component='h3'>
+            <Typography className={classes.title} type='headline' component='h1'>
               { title }
             </Typography>
             <Typography className={classes.date} type='caption'>
               <Icon className={classes.dateIcon}>access_time</Icon>
-              {moment(date).fromNow()}
+              <time className="op-published" dateTime={date}>{moment(date).fromNow()}</time>
             </Typography>
           </header>
           <Typography type='body1' component='p' className={classes.description}>
             { description }
           </Typography>
-        </article>
-      </PageShell>
+        </PageShell>
+      </article>
     );
   }
 

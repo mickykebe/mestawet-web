@@ -4,7 +4,7 @@ import { SOURCES_FETCH_RESULT_ACTIONS, HOME_POSTS_FETCH_RESULT_ACTIONS } from '.
 
 const PostsController = require('../controllers/posts-controller');
 const SourcesController = require('../controllers/sources-controller');
-const { buildOGMetas } = require('../utils');
+const { buildHtmlHeaders } = require('../utils');
 const pageHtml = require('./page-helpers');
 
 module.exports = (url) => {
@@ -24,7 +24,7 @@ module.exports = (url) => {
         type: HOME_POSTS_FETCH_RESULT_ACTIONS.SUCCESS,
         data: homeNormalizer({ posts, nextOffset: 30 }),
       });
-      const html = pageHtml(buildOGMetas(), url, store);
+      const html = pageHtml(buildHtmlHeaders(), url, store);
       return html;
     });
 };

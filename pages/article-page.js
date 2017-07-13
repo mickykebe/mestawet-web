@@ -6,7 +6,7 @@ import { ARTICLE_FETCH_RESULT_ACTIONS } from '../dallol-web/src/article/actions'
 const he = require('he');
 const PostsController = require('../controllers/posts-controller');
 const SourcesController = require('../controllers/sources-controller');
-const { buildOGMetas, fetchClientPostUrl } = require('../utils');
+const { buildHtmlHeaders, fetchClientPostUrl } = require('../utils');
 const pageHtml = require('./page-helpers');
 
 function articlePage(articleId, url) {
@@ -23,12 +23,14 @@ function articlePage(articleId, url) {
     .then((postDoc) => {
       const post = postDoc.toObject();
       store.dispatch({ type: ARTICLE_FETCH_RESULT_ACTIONS.SUCCESS, data: articleNormalizer(post) });
-      const metas = buildOGMetas({
+      const postUrl = fetchClientPostUrl(post);
+      const metas = buildHtmlHeaders({
         ogType: 'article',
         ogTitle: he.encode(post.title),
-        ogUrl: fetchClientPostUrl(post),
-        ogDescription: he.encode(post.description),
+        ogUrl: postUrl,
+        ogDescription: post.description && he.encode(post.description),
         ogImage: encodeURI(post.thumbnailUrl),
+        canonicalUrl: postUrl,
       });
       const html = pageHtml(metas, url, store);
       return html;
