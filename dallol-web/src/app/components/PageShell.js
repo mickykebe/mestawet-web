@@ -68,7 +68,9 @@ function PageShell(props) {
         <Grid item xs={12} className={classes.thumbWrap}>
           {
             thumbUrl &&
-            <img className={classes.thumb} src={thumbUrl} alt=''/>
+            <figure>
+              <img className={classes.thumb} src={thumbUrl} alt=''/>
+            </figure>
           }
         </Grid>
         <Grid item xs={12} sm={9} className={contentClass}>

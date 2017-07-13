@@ -41,7 +41,7 @@ function fetchClientPostUrl(post) {
   return `${baseClientUrl}${postUrlPath(post)}`;
 }
 
-function buildOGMetas({
+function buildHtmlHeaders({
   ogTitle = 'Mestawet - Ethiopian news and videos',
   ogType = 'website',
   ogUrl = 'https://mestawet.com/',
@@ -49,14 +49,17 @@ function buildOGMetas({
   ogDescription = 'The latest Ethiopian news and videos as they break',
   ogImageWidth = '480',
   ogImageHeight = '360',
+  canonicalUrl = '',
 } = {}) {
   return `<meta property="og:title" content="${ogTitle}">
   <meta property="og:type" content="${ogType}">
   <meta property="og:url" content="${ogUrl}">
-  <meta property="og:description" content="${ogDescription}">
+  ${ogDescription ? `<meta property="og:description" content="${ogDescription}">` : ``}
   <meta property="og:image" content="${ogImage}">
   <meta property="og:image:width" content="${ogImageWidth}" />
-  <meta property="og:image:height" content="${ogImageHeight}" />`;
+  <meta property="og:image:height" content="${ogImageHeight}" />
+  ${canonicalUrl ? `<link rel="canonical" href="${canonicalUrl}">` : ``}
+  `;
 }
 
 function getFileNameFromPath(file) {
@@ -90,6 +93,6 @@ function getBuiltCssFileName() {
 module.exports.fetchClientPostUrl = fetchClientPostUrl;
 module.exports.postUrlPath = postUrlPath;
 module.exports.trimText = (text = '') => text.slice(0, 250).concat('...');
-module.exports.buildOGMetas = buildOGMetas;
+module.exports.buildHtmlHeaders = buildHtmlHeaders;
 module.exports.getBuiltJsFileName = getBuiltJsFileName;
 module.exports.getBuiltCssFileName = getBuiltCssFileName;

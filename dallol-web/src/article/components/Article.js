@@ -56,16 +56,16 @@ class Article extends Component {
     const { classes, title, thumbnailUrl, textContent, date, srcThumbnailUrl } = this.props;
 
     return (
-      <PageShell thumbUrl={thumbnailUrl}>
-        <article>
+      <article>
+        <PageShell thumbUrl={thumbnailUrl}>
           <header>
             <BigAvatar className={classes.srcThumb} thumbUrl={srcThumbnailUrl} />
-            <Typography type='headline' component='h3'>
+            <Typography type='headline' component='h1'>
               { title }
             </Typography>
             <Typography className={classes.date} type='caption'>
               <Icon className={classes.dateIcon}>access_time</Icon>
-              {moment(date).fromNow()}
+              <time className="op-published" dateTime={date}>{moment(date).fromNow()}</time>
             </Typography>
             <div>
               <IconButton aria-label="open external" onClick={this.openExternally}>
@@ -74,8 +74,8 @@ class Article extends Component {
             </div>
           </header>
           <Typography type='body1' component='p' className={classes.textContent} dangerouslySetInnerHTML={{ __html: textContent }} />
-        </article>
-      </PageShell>
+        </PageShell>
+      </article>
     );
   }
 }

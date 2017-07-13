@@ -9,14 +9,15 @@ import App from '../dallol-web/src/app/App';
 
 const { getBuiltCssFileName, getBuiltJsFileName } = require('../utils');
 
-function renderFullPage(metas, html, css) {
+function renderFullPage(htmlHeaders, html, css) {
   return Promise.all([getBuiltJsFileName(), getBuiltCssFileName()])
     .then(fileNames =>
       `
         <!DOCTYPE html>
         <html lang="en">
           <head>
-            ${metas}
+            ${htmlHeaders}
+            <meta property="fb:pages" content="1917136798554815" />
             <meta name="viewport" content="width=device-width,initial-scale=1">
             <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
             <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
@@ -53,7 +54,7 @@ function renderFullPage(metas, html, css) {
       `);
 }
 
-function pageHtml(metas, location, store) {
+function pageHtml(htmlHeaders, location, store) {
   function createStyleManager() {
     return MuiThemeProvider.createDefaultContext({
       theme: createMuiTheme({
@@ -77,7 +78,7 @@ function pageHtml(metas, location, store) {
   );
 
   const css = styleManager.sheetsToString();
-  return renderFullPage(metas, html, css);
+  return renderFullPage(htmlHeaders, html, css);
 }
 
 module.exports = pageHtml;
